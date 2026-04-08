@@ -5,7 +5,7 @@ const today = new Date();
 <footer class="footer">
 	<div class="container footer-content">
 		<div class="footer-info">
-			<h3>Villa Eucalipto Y Romero</h3>
+			<h3>Villa del Eden</h3>
 			<p>Glamping & Cabañas</p>
 			<p class="tagline">Donde la tranquilidad existe</p>
 		</div>
@@ -16,9 +16,13 @@ const today = new Date();
 				<li><a href={`${import.meta.env.BASE_URL}/`}>Inicio</a></li>
 				<li>
 					<a href={`${import.meta.env.BASE_URL}/quienes-somos`}
-						>Quiénes Somos</a>
+						>Quiénes Somos</a
+					>
 				</li>
-				<li><a href={`${import.meta.env.BASE_URL}/reservas`}>Reservas</a></li>
+				<li>
+					<a href={`${import.meta.env.BASE_URL}/reservas`}
+						>Reservas</a>
+				</li>
 			</ul>
 		</div>
 
@@ -67,8 +71,7 @@ const today = new Date();
 
 	<div class="footer-bottom">
 		<p>
-			&copy; {today.getFullYear()} Villa Eucalipto Y Romero. Todos los derechos
-			reservados.
+			&copy; {today.getFullYear()} Villa del Eden. Todos los derechos reservados.
 		</p>
 	</div>
 </footer>

@@ -1,17 +1,24 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import ReservationForm from '../components/ReservationForm.astro';
+import MainLayout from "../layouts/MainLayout.astro";
+import ReservationForm from "../components/ReservationForm.astro";
 ---
 
-<MainLayout title="Reservas | Villa Eucalipto Y Romero" description="Reserva tu alojamiento en Villa Eucalipto Y Romero.">
+<MainLayout
+	title="Reservas | Villa del Eden"
+	description="Reserva tu alojamiento en Villa del Eden."
+>
 	<div class="reservation-page">
 		<div class="background-pattern"></div>
 		<div class="container reservation-container" data-aos="fade-up">
 			<div class="reservation-header">
 				<h1>Reserva tu Experiencia</h1>
-				<p>Diligencia el formulario para iniciar tu proceso de reservación. Te confirmaremos disponibilidad a la mayor brevedad.</p>
+				<p>
+					Diligencia el formulario para iniciar tu proceso de
+					reservación. Te confirmaremos disponibilidad a la mayor
+					brevedad.
+				</p>
 			</div>
-			
+
 			<div class="form-wrapper">
 				<ReservationForm />
 			</div>
