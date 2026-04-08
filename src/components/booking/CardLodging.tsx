@@ -18,8 +18,8 @@ export default function CardLodging({ galleryItem, idx }: Props) {
                 bg-white rounded-xl overflow-hidden flex flex-col
                 border border-black/5
                 shadow-[0_4px_15px_rgba(26,58,42,0.05)]
-                transition-all! duration-300
-                hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(26,58,42,0.12)]
+                hover:shadow-[0_20px_40px_rgba(26,58,42,0.12)]
+                group
             "
         >
             <a href={`${base}/alojamiento/${galleryItem.id}`} className="block relative">
@@ -60,7 +60,7 @@ export default function CardLodging({ galleryItem, idx }: Props) {
                         href={`${base}/alojamiento/${galleryItem.id}`}
                         className="no-underline text-forest group"
                     >
-                        <h3 className="text-xl leading-tight transition-colors group-hover:text-gold">
+                        <h3 className="text-xl leading-tight transition-colors! group-hover:text-gold!">
                             {galleryItem.nombre}
                         </h3>
                     </a>
@@ -127,7 +127,7 @@ export default function CardLodging({ galleryItem, idx }: Props) {
                         href={`${base}/alojamiento/${galleryItem.id}`}
                         className="
                             text-gold font-bold text-sm uppercase tracking-wide
-                            flex items-center transition-all duration-300
+                            flex items-center transition-all! duration-300
                             hover:text-forest hover:pr-1
                         "
                     >
