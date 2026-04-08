@@ -11,7 +11,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://isarbelaez.github.io',
-  base: '/villa-el-eden-cali',
+  base: 'villa-el-eden-cali',
   integrations: [mdx(), sitemap(), react()],
 
   vite: {
