@@ -1,0 +1,265 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import CTAButton from "../components/CTAButton.astro";
+---
+
+<MainLayout
+	title="Quiénes Somos | Villa Eucalipto Y Romero"
+	description="Conoce la historia y el propósito de Villa Eucalipto Y Romero Glamping Y Cabañas."
+	image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop"
+>
+	<!-- Hero pequeño -->
+	<section
+		class="page-hero"
+		style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2670&auto=format&fit=crop')"
+	>
+		<div class="hero-overlay"></div>
+		<div class="container hero-content" data-aos="fade-up">
+			<h1>Quiénes Somos</h1>
+			<p class="subtitle">Nuestra esencia</p>
+		</div>
+	</section>
+
+	<!-- Contenido principal -->
+	<section class="about-section">
+		<div class="container about-layout" data-aos="fade-up">
+			<div class="about-text">
+				<h2>Un refugio hecho con amor</h2>
+				<p>
+					Villa Eucalipto Y Romero Glamping Y Cabañas nació como un
+					proyecto familiar para compartir la belleza de nuestras
+					montañas y el profundo amor por la naturaleza con personas
+					de todo el mundo.
+				</p>
+				<p>
+					Nuestra misión es ofrecerte un refugio. Un espacio apartado
+					del ruido de la ciudad donde el tiempo se detiene y la
+					tranquilidad es la norma. Creemos en el turismo sostenible,
+					preservando el bosque nativo y ofreciendo una experiencia
+					inmersiva sin comprometer las comodidades premium de un
+					hotel de lujo.
+				</p>
+				<p>
+					Ya sea que busques una escapada romántica o un momento para
+					desconectar de la rutina, aquí en Villa Eucalipto y Romero
+					estamos comprometidos en brindarte una hospitalidad cálida,
+					genuina y memorable.
+				</p>
+
+				<div class="values">
+					<div class="value-item">
+						<span class="value-icon">🌿</span>
+						<div>
+							<h4>Sostenibilidad</h4>
+							<p>
+								Preservamos el bosque nativo y utilizamos
+								materiales locales en todas nuestras
+								construcciones.
+							</p>
+						</div>
+					</div>
+					<div class="value-item">
+						<span class="value-icon">🤝</span>
+						<div>
+							<h4>Hospitalidad genuina</h4>
+							<p>
+								Cada huésped es tratado como parte de la
+								familia. Tu bienestar es nuestra prioridad.
+							</p>
+						</div>
+					</div>
+					<div class="value-item">
+						<span class="value-icon">✨</span>
+						<div>
+							<h4>Lujo natural</h4>
+							<p>
+								Confort de primera en armonía con la naturaleza.
+								Sin renunciar a ningún detalle.
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="cta-section">
+					<CTAButton
+						text="Reservar ahora"
+						href="/ejemplo-villa-eucalipto-y-romero-glamping/reservas"
+						variant="solid-forest"
+					/>
+				</div>
+			</div>
+
+			<!-- Galería de imágenes decorativas -->
+			<aside class="about-images">
+				<img
+					class="img-main"
+					src="https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=900&auto=format&fit=crop"
+					alt="Vista panorámica de Villa Eucalipto y Romero"
+				/>
+				<img
+					class="img-secondary"
+					src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop"
+					alt="Naturaleza en Villa Eucalipto y Romero"
+				/>
+			</aside>
+		</div>
+	</section>
+</MainLayout>
+
+<style>
+	/* Hero */
+	.page-hero {
+		position: relative;
+		height: 50vh;
+		min-height: 350px;
+		background-size: cover;
+		background-position: center 40%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgba(26, 58, 42, 0.4) 0%,
+			rgba(26, 58, 42, 0.85) 100%
+		);
+	}
+
+	.hero-content {
+		position: relative;
+		z-index: 10;
+		text-align: center;
+		color: var(--color-white);
+	}
+
+	.hero-content h1 {
+		font-size: clamp(2rem, 5vw, 3.5rem);
+		color: var(--color-white);
+		margin-bottom: 0.5rem;
+	}
+
+	.subtitle {
+		font-family: var(--font-display);
+		font-style: italic;
+		color: var(--color-gold);
+		font-size: 1.4rem;
+		margin: 0;
+	}
+
+	/* Section */
+	.about-section {
+		padding: 6rem 0;
+		background-color: var(--color-white);
+	}
+
+	.about-layout {
+		display: grid;
+		grid-template-columns: 1fr 420px;
+		gap: 5rem;
+		align-items: start;
+	}
+
+	/* Text */
+	.about-text h2 {
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+		margin-bottom: 1.5rem;
+	}
+
+	.about-text p {
+		font-size: 1.1rem;
+		line-height: 1.85;
+		color: #444;
+		margin-bottom: 1.5rem;
+	}
+
+	/* Values */
+	.values {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		margin: 2.5rem 0;
+		padding: 2rem;
+		background-color: var(--color-mist);
+		border-radius: 12px;
+	}
+
+	.value-item {
+		display: flex;
+		gap: 1.25rem;
+		align-items: flex-start;
+	}
+
+	.value-icon {
+		font-size: 1.8rem;
+		flex-shrink: 0;
+		line-height: 1;
+	}
+
+	.value-item h4 {
+		font-size: 1rem;
+		color: var(--color-forest);
+		margin-bottom: 0.3rem;
+		font-family: var(--font-body);
+		font-weight: 700;
+	}
+
+	.value-item p {
+		font-size: 0.9rem;
+		color: #666;
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	.cta-section {
+		margin-top: 2rem;
+	}
+
+	/* Images sidebar */
+	.about-images {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		position: sticky;
+		top: 100px;
+	}
+
+	.about-images img {
+		width: 100%;
+		border-radius: 12px;
+		object-fit: cover;
+	}
+
+	.img-main {
+		height: 280px;
+	}
+
+	.img-secondary {
+		height: 200px;
+	}
+
+	@media (max-width: 1024px) {
+		.about-layout {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+		.about-images {
+			flex-direction: row;
+			position: static;
+		}
+		.img-main,
+		.img-secondary {
+			height: 220px;
+			flex: 1;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.about-images {
+			flex-direction: column;
+		}
+	}
+</style>

@@ -1,0 +1,393 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import CTAButton from '../../components/CTAButton.astro';
+
+export async function getStaticPaths() {
+	const alojamientos = await getCollection('alojamientos');
+	return alojamientos.map(alojamiento => ({
+		params: { slug: alojamiento.id },
+		props: { alojamiento },
+	}));
+}
+
+const { alojamiento } = Astro.props;
+const { Content } = await render(alojamiento);
+
+// Format price
+const formattedPrice = new Intl.NumberFormat('es-CO', {
+	style: 'currency',
+	currency: 'COP',
+	minimumFractionDigits: 0
+}).format(alojamiento.data.precio);
+
+// Helpers
+function badgeLabel(tipo: string) {
+	return tipo === 'suite' ? '🛁 Suite' : tipo === 'glamping' ? '⛺ Glamping' : '🏡 Cabaña';
+}
+
+function jacuzziEmoji(jac: string) {
+	return jac === 'cubierto' ? '🛁' : '♨️';
+}
+
+function amenidadIcon(amenidad: string) {
+	const lower = amenidad.toLowerCase();
+	if (lower.includes('jacuzzi')) return '🛁';
+	if (lower.includes('cama')) return '🛏️';
+	if (lower.includes('tv') || lower.includes('smart')) return '📺';
+	if (lower.includes('wifi')) return '📶';
+	if (lower.includes('cafetera')) return '☕';
+	if (lower.includes('nevera')) return '🧊';
+	if (lower.includes('red') || lower.includes('catamarán')) return '🌙';
+	if (lower.includes('baño')) return '🚿';
+	if (lower.includes('comedor') || lower.includes('cocina')) return '🍽️';
+	if (lower.includes('jardín') || lower.includes('deck')) return '🌿';
+	if (lower.includes('audio')) return '🎵';
+	return '✅';
+}
+---
+
+<MainLayout 
+	title={`${alojamiento.data.nombre} | Villa Eucalipto Y Romero`} 
+	description={alojamiento.data.resumen || `Descubre ${alojamiento.data.nombre} en Villa Eucalipto Y Romero.`}
+	image={alojamiento.data.imagen}
+>
+	<!-- Hero Image Banner -->
+	<header class="detail-hero" style={`background-image: url('${alojamiento.data.imagen}');`}>
+		<div class="hero-overlay"></div>
+		<div class="hero-content container" data-aos="fade-up">
+			<span class={`badge badge-${alojamiento.data.tipo}`}>{badgeLabel(alojamiento.data.tipo)}</span>
+			<h1>{alojamiento.data.nombre}</h1>
+			<p class="hero-meta">
+				<span>👥 {alojamiento.data.capacidad} personas</span>
+				<span class="meta-dot">&bull;</span>
+				<span>{jacuzziEmoji(alojamiento.data.jacuzzi)} Jacuzzi {alojamiento.data.jacuzzi}</span>
+			</p>
+		</div>
+	</header>
+
+	<div class="detail-container container">
+		<!-- Content Column -->
+		<div class="main-content">
+			<div class="content-body" data-aos="fade-up">
+				<Content />
+			</div>
+
+			{alojamiento.data.amenidades && alojamiento.data.amenidades.length > 0 && (
+				<div class="amenities-section" data-aos="fade-up">
+					<h2>Amenidades</h2>
+					<ul class="amenities-list">
+						{alojamiento.data.amenidades.map((amenidad: string) => (
+							<li><span class="amenity-icon">{amenidadIcon(amenidad)}</span> {amenidad}</li>
+						))}
+					</ul>
+				</div>
+			)}
+			
+			{alojamiento.data.galeria && alojamiento.data.galeria.length > 0 && (
+				<div class="gallery-section" data-aos="fade-up">
+					<h2>Galería</h2>
+					<div class="photo-grid">
+						{alojamiento.data.galeria.map((img: string, idx: number) => (
+							<img src={img} alt={`Foto de ${alojamiento.data.nombre} ${idx + 1}`} loading="lazy" />
+						))}
+					</div>
+				</div>
+			)}
+		</div>
+
+		<!-- Sidebar with Booking Widget -->
+		<aside class="sidebar">
+			<div class="booking-widget" data-aos="fade-left">
+				<div class="price-header">
+					<div class="price-amount">{formattedPrice}</div>
+					<div class="price-note">/ noche · {alojamiento.data.capacidad} personas</div>
+				</div>
+				
+				<div class="widget-body">
+					<p class="widget-desc">Reserva tu estadía con un abono de $100.000 COP y paga el resto al llegar.</p>
+					
+					<CTAButton 
+						text="Ir a Reservar" 
+						href={`/ejemplo-villa-eucalipto-y-romero-glamping/reservas?alojamiento=${encodeURIComponent(alojamiento.data.nombre)}`} 
+						class="cta-full widget-btn" 
+					/>
+					
+					<ul class="widget-features">
+						<li>✓ Desayuno y cena incluidos</li>
+						<li>✓ Parqueadero privado</li>
+						<li>✓ Recepción 24h</li>
+					</ul>
+				</div>
+			</div>
+		</aside>
+	</div>
+</MainLayout>
+
+<style>
+	/* Hero Banner */
+	.detail-hero {
+		position: relative;
+		height: 60vh;
+		min-height: 400px;
+		max-height: 600px;
+		background-size: cover;
+		background-position: center;
+		display: flex;
+		align-items: flex-end;
+		padding-bottom: 4rem;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		background: linear-gradient(to top, rgba(26,58,42,0.95) 0%, rgba(26,58,42,0.4) 50%, rgba(0,0,0,0.1) 100%);
+		z-index: 1;
+	}
+
+	.hero-content {
+		position: relative;
+		z-index: 2;
+		color: white;
+	}
+
+	.badge {
+		display: inline-block;
+		padding: 0.35rem 1rem;
+		border-radius: 50px;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		margin-bottom: 1rem;
+		text-transform: uppercase;
+	}
+	.badge-suite    { background: rgba(200,151,62,0.95);  color: white; }
+	.badge-glamping { background: rgba(26,58,42,0.95);    color: white; border: 1px solid rgba(255,255,255,0.2); }
+	.badge-cabana   { background: rgba(74,103,65,0.95);   color: white; }
+
+	.hero-content h1 {
+		color: white;
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		margin-bottom: 0.5rem;
+		text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+	}
+
+	.hero-meta {
+		font-size: 1.1rem;
+		opacity: 0.9;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.meta-dot {
+		opacity: 0.5;
+	}
+
+	/* Main Layout */
+	.detail-container {
+		display: grid;
+		grid-template-columns: 1fr 380px;
+		gap: 4rem;
+		padding-top: 4rem;
+		padding-bottom: 6rem;
+		align-items: start;
+	}
+
+	/* Typography & Markdown Content */
+	.content-body {
+		font-size: 1.1rem;
+		line-height: 1.8;
+		color: var(--color-forest);
+		margin-bottom: 4rem;
+	}
+
+	.content-body :global(h2), .content-body :global(h3) {
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+		color: var(--color-forest);
+	}
+
+	.content-body :global(p) {
+		margin-bottom: 1.5rem;
+	}
+
+	.content-body :global(ul) {
+		padding-left: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.content-body :global(li) {
+		margin-bottom: 0.5rem;
+	}
+
+	/* Amenities */
+	.amenities-section h2, .gallery-section h2 {
+		font-size: 2rem;
+		margin-bottom: 1.5rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--color-mist);
+	}
+
+	.amenities-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 1.25rem;
+		list-style: none;
+		padding: 0;
+		margin: 0 0 4rem 0;
+	}
+
+	.amenities-list li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		font-weight: 500;
+	}
+
+	.amenity-icon {
+		background: var(--color-mist);
+		width: 38px;
+		height: 38px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		font-size: 1.1rem;
+	}
+
+	/* Gallery */
+	.photo-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	}
+
+	.photo-grid img {
+		width: 100%;
+		height: 280px;
+		object-fit: cover;
+		border-radius: 12px;
+		transition: transform 0.3s;
+	}
+
+	.photo-grid img:first-child {
+		grid-column: 1 / -1;
+		height: 400px;
+	}
+
+	.photo-grid img:hover {
+		transform: scale(1.02);
+	}
+
+	/* Sidebar Booking Widget */
+	.sidebar {
+		position: sticky;
+		top: 100px; /* Account for potential fixed header */
+	}
+
+	.booking-widget {
+		background: var(--color-white);
+		border-radius: 20px;
+		box-shadow: 0 10px 40px rgba(26,58,42,0.1);
+		overflow: hidden;
+		border: 1px solid var(--color-mist);
+	}
+
+	.price-header {
+		background: var(--color-forest);
+		color: white;
+		padding: 2rem;
+		text-align: center;
+	}
+
+	.price-amount {
+		font-size: 2.5rem;
+		font-family: var(--font-display);
+		font-weight: 700;
+		line-height: 1.1;
+		margin-bottom: 0.25rem;
+	}
+
+	.price-note {
+		color: rgba(255,255,255,0.8);
+		font-size: 0.9rem;
+	}
+
+	.widget-body {
+		padding: 2rem;
+	}
+
+	.widget-desc {
+		text-align: center;
+		font-size: 0.95rem;
+		margin-bottom: 1.5rem;
+		color: #555;
+	}
+
+	:global(.widget-btn) {
+		width: 100%;
+		display: flex !important;
+		justify-content: center;
+		padding: 1.1rem !important;
+		font-size: 1.1rem !important;
+		margin-bottom: 1.5rem;
+	}
+
+	.widget-features {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid var(--color-mist);
+		padding-top: 1.5rem;
+	}
+
+	.widget-features li {
+		color: var(--color-sage);
+		font-weight: 600;
+		font-size: 0.9rem;
+		margin-bottom: 0.75rem;
+		display: flex;
+		align-items: center;
+	}
+
+	/* Responsive */
+	@media (max-width: 1024px) {
+		.detail-container {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+
+		.sidebar {
+			position: static;
+			order: -1; /* Move booking widget above content on mobile */
+		}
+
+		.photo-grid img {
+			height: 200px;
+		}
+		
+		.photo-grid img:first-child {
+			height: 300px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.detail-container {
+			padding-top: 2rem;
+		}
+
+		.hero-content h1 {
+			font-size: 2.2rem;
+		}
+
+		.photo-grid {
+			grid-template-columns: 1fr;
+		}
+		
+		.photo-grid img, .photo-grid img:first-child {
+			height: 250px;
+		}
+	}
+</style>

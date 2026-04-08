@@ -1,0 +1,70 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import ReservationForm from '../components/ReservationForm.astro';
+---
+
+<MainLayout title="Reservas | Villa Eucalipto Y Romero" description="Reserva tu alojamiento en Villa Eucalipto Y Romero.">
+	<div class="reservation-page">
+		<div class="background-pattern"></div>
+		<div class="container reservation-container" data-aos="fade-up">
+			<div class="reservation-header">
+				<h1>Reserva tu Experiencia</h1>
+				<p>Diligencia el formulario para iniciar tu proceso de reservación. Te confirmaremos disponibilidad a la mayor brevedad.</p>
+			</div>
+			
+			<div class="form-wrapper">
+				<ReservationForm />
+			</div>
+		</div>
+	</div>
+</MainLayout>
+
+<style>
+	.reservation-page {
+		position: relative;
+		min-height: 100vh;
+		padding: 8rem 0 5rem;
+		background-color: var(--color-mist);
+	}
+
+	.background-pattern {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 400px;
+		background-color: var(--color-forest);
+		z-index: 0;
+	}
+
+	.reservation-container {
+		position: relative;
+		z-index: 10;
+	}
+
+	.reservation-header {
+		text-align: center;
+		color: var(--color-white);
+		margin-bottom: 3rem;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.reservation-header h1 {
+		color: var(--color-white);
+		font-size: clamp(2rem, 5vw, 3.5rem);
+		margin-bottom: 1rem;
+		font-family: var(--font-display);
+	}
+
+	.reservation-header p {
+		font-size: 1.1rem;
+		opacity: 0.9;
+	}
+
+	.form-wrapper {
+		max-width: 700px;
+		margin: 0 auto;
+	}
+</style>

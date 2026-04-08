@@ -1,0 +1,85 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import AlojamientosSectionReact from '../components/AlojamientosSectionReact.tsx';
+import LuxuryPlanPromo from '../components/LuxuryPlanPromo.astro';
+import { getCollection } from 'astro:content';
+
+const allAlojamientos = await getCollection('alojamientos');
+allAlojamientos.sort((a, b) => a.data.orden - b.data.orden);
+
+const galleryItems = allAlojamientos.map(a => ({
+	id: a.id,
+	nombre: a.data.nombre,
+	imagen: a.data.imagen,
+	precio: a.data.precio,
+	jacuzzi: a.data.jacuzzi,
+	tipo: a.data.tipo,
+	capacidad: a.data.capacidad,
+	resumen: a.data.resumen,
+	amenidades: a.data.amenidades,
+}));
+
+const heroImage = "https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2670&auto=format&fit=crop";
+---
+
+<MainLayout
+	title="Villa Eucalipto Y Romero | Glamping & Cabañas"
+	description="Glamping y cabañas en la naturaleza. Suites con jacuzzi, vistas panorámicas y experiencias de descanso inolvidables."
+>
+	<!-- 1. HERO (full screen) -->
+	<Hero
+		title="Encuentra tu refugio"
+		subtitle="Donde la tranquilidad existe"
+		image={heroImage}
+	/>
+
+	<!-- 2. SEARCH BAR + GALLERY (React Interactive Component) -->
+	<AlojamientosSectionReact client:load alojamientos={galleryItems} pageSize={6} />
+
+	<!-- 3. BIENVENIDA -->
+	<section class="welcome section">
+		<div class="container" data-aos="fade-up">
+			<h2 class="section-title">Bienvenida a Villa Eucalipto y Romero</h2>
+			<p class="welcome-text">
+				Nuestra villa está pensada para brindarte una experiencia inolvidable. Cabañas y glampings
+				de lujo integrados con la naturaleza, donde cada detalle ha sido diseñado para tu máximo
+				confort. Desconéctate de la rutina y reconéctate con lo esencial en un ambiente de
+				sofisticación rústica.
+			</p>
+		</div>
+	</section>
+
+	<!-- 4. LUXURY PLANES PROMO -->
+	<LuxuryPlanPromo />
+</MainLayout>
+
+<style>
+	.section { padding: 5rem 0; }
+
+	/* Bienvenida */
+	.welcome-text {
+		text-align: center;
+		max-width: 780px;
+		margin: 0 auto;
+		font-size: 1.1rem;
+		line-height: 1.85;
+		color: #555;
+	}
+
+	.section-title { text-align: center; margin-bottom: 0.5rem; }
+
+	.section-subtitle {
+		text-align: center;
+		font-family: var(--font-display);
+		color: var(--color-gold);
+		font-size: 1.3rem;
+		font-style: italic;
+		margin-bottom: 3rem;
+	}
+
+	/* Mobile */
+	@media (max-width: 768px) {
+		.section { padding: 3.5rem 0; }
+	}
+</style>

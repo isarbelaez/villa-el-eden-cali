@@ -1,0 +1,334 @@
+---
+import CTAButton from './CTAButton.astro';
+---
+
+<section class="luxury-promo-section" id="planes">
+	<div class="luxury-promo-container" data-aos="fade-up">
+		<div class="promo-grid">
+			
+			<!-- Leyenda Izquierda -->
+			<div class="promo-content">
+				<span class="promo-tag">Experiencia Exclusiva</span>
+				<h2 class="promo-title">Planes para<br/>Parejas</h2>
+				<p class="promo-subtitle">2 personas · 1 noche · Todo Incluido</p>
+				
+				<div class="promo-text">
+					<p>Desconéctate de la rutina y reconéctate con lo esencial. Hemos diseñado una vivencia donde cada detalle está contemplado para brindarles el máximo confort y privacidad en medio de la naturaleza.</p>
+				</div>
+				
+				<div class="promo-actions">
+					<a href="/ejemplo-villa-eucalipto-y-romero-glamping/reservas" class="lux-book-btn">
+						Reservar Escapada
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+					</a>
+				</div>
+			</div>
+
+			<!-- Tarjeta Derecha (Inclusiones) -->
+			<div class="promo-card-wrapper">
+				<div class="glass-card">
+					<h3 class="glass-card-title">¿Qué incluye tu plan?</h3>
+					
+					<ul class="luxury-checklist">
+						<li>
+							<div class="check-icon-wrap">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+							</div>
+							<span>Hospedaje de lujo para 2 personas (1 noche).</span>
+						</li>
+						<li>
+							<div class="check-icon-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+							</div>
+							<span>2 Cenas deliciosas preparadas por nuestro chef.</span>
+						</li>
+						<li>
+							<div class="check-icon-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+							</div>
+							<span>2 Desayunos energéticos.</span>
+						</li>
+						<li>
+							<div class="check-icon-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+							</div>
+							<span>Relajación total en tu jacuzzi propio.</span>
+						</li>
+						<li>
+							<div class="check-icon-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+							</div>
+							<span>Red Catamarán para ver las estrellas o el dosel.</span>
+						</li>
+						<li>
+							<div class="check-icon-wrap">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+							</div>
+							<span>Comodidades: comedor, nevera, TV, cafetera, WiFi y baño privado.</span>
+						</li>
+					</ul>
+
+					<div class="glass-card-footer">
+						<p class="schedule"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Ingreso 3:00 p.m. &mdash; Salida 11:00 a.m.</p>
+						<p class="deposit-notice">
+							Abono de <strong>$100.000 COP</strong> para confirmar. El saldo restante se cancela en la Villa en efectivo.
+						</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</section>
+
+<style>
+	/* ═══════════════ PROMOCIONAL LUXURY SECTION ═══════════════ */
+	.luxury-promo-section {
+		background-color: var(--color-forest);
+		color: var(--color-mist);
+		padding: 7rem 0;
+		position: relative;
+		overflow: hidden;
+		/* Adding a subtle gradient mesh background */
+		background-image: 
+			radial-gradient(circle at 10% 20%, rgba(200, 151, 62, 0.05) 0%, transparent 40%),
+			radial-gradient(circle at 90% 80%, rgba(74, 103, 65, 0.15) 0%, transparent 40%);
+	}
+
+	.luxury-promo-container {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+		position: relative;
+		z-index: 2;
+	}
+
+	.promo-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 5rem;
+		align-items: center;
+	}
+
+	/* ─── Izquierda: Contenido ─── */
+	.promo-content {
+		max-width: 500px;
+	}
+
+	.promo-tag {
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		font-size: 0.8rem;
+		color: var(--color-gold);
+		font-weight: 700;
+		display: inline-block;
+		margin-bottom: 1.5rem;
+		position: relative;
+	}
+	.promo-tag::before {
+		content: '';
+		position: absolute;
+		left: -35px;
+		top: 50%;
+		width: 25px;
+		height: 1px;
+		background-color: var(--color-gold);
+	}
+
+	.promo-title {
+		font-family: var(--font-display);
+		font-size: clamp(3rem, 5vw, 4.5rem);
+		line-height: 1.1;
+		color: var(--color-white);
+		margin-bottom: 1rem;
+		font-weight: 500;
+	}
+
+	.promo-subtitle {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: 1.5rem;
+		color: var(--color-gold);
+		margin-bottom: 2.5rem;
+	}
+
+	.promo-text {
+		font-size: 1.1rem;
+		line-height: 1.8;
+		color: rgba(255, 255, 255, 0.8);
+		margin-bottom: 3rem;
+	}
+
+	.lux-book-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.75rem;
+		background-color: var(--color-gold);
+		color: var(--color-forest);
+		padding: 1.2rem 2.5rem;
+		border-radius: 4px;
+		font-family: var(--font-body);
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-size: 0.95rem;
+		text-decoration: none;
+		transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+		box-shadow: 0 10px 30px rgba(200, 151, 62, 0.2);
+	}
+
+	.lux-book-btn:hover {
+		background-color: var(--color-white);
+		transform: translateY(-4px);
+		box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2);
+	}
+
+	.btn-arrow {
+		transition: transform 0.3s ease;
+	}
+
+	.lux-book-btn:hover .btn-arrow {
+		transform: translateX(4px);
+	}
+
+	/* ─── Derecha: Tarjeta Glassmorfismo ─── */
+	.promo-card-wrapper {
+		position: relative;
+	}
+
+	/* Golden accent glow behind the card */
+	.promo-card-wrapper::after {
+		content: '';
+		position: absolute;
+		top: -20px;
+		left: -20px;
+		right: -20px;
+		bottom: -20px;
+		background: linear-gradient(135deg, rgba(200, 151, 62, 0.15) 0%, transparent 100%);
+		border-radius: 20px;
+		z-index: 0;
+		filter: blur(20px);
+	}
+
+	.glass-card {
+		position: relative;
+		z-index: 1;
+		background: rgba(255, 255, 255, 0.05); /* very subtle white */
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 16px;
+		padding: 3rem;
+		box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+	}
+
+	.glass-card-title {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		color: var(--color-white);
+		margin-bottom: 2rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding-bottom: 1rem;
+	}
+
+	.luxury-checklist {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.luxury-checklist li {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 1.05rem;
+	}
+
+	.check-icon-wrap {
+		flex-shrink: 0;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: rgba(200, 151, 62, 0.15);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--color-gold);
+		margin-top: 2px;
+	}
+
+	.check-icon-wrap svg {
+		width: 14px;
+		height: 14px;
+	}
+
+	.glass-card-footer {
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px dashed rgba(255, 255, 255, 0.15);
+	}
+
+	.schedule {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-gold);
+		font-family: var(--font-display);
+		font-style: italic;
+		font-size: 1.15rem;
+		margin-bottom: 1rem;
+	}
+
+	.deposit-notice {
+		font-size: 0.85rem;
+		color: rgba(255, 255, 255, 0.6);
+		line-height: 1.5;
+	}
+
+	.deposit-notice strong {
+		color: rgba(255, 255, 255, 0.9);
+		font-weight: 600;
+	}
+
+	/* ═══════════════ RESPONSIVE ═══════════════ */
+	@media (max-width: 992px) {
+		.promo-grid {
+			grid-template-columns: 1fr;
+			gap: 4rem;
+		}
+		
+		.promo-content {
+			max-width: 100%;
+			text-align: center;
+		}
+
+		.promo-tag::before {
+			display: none;
+		}
+		
+		.lux-book-btn {
+			margin: 0 auto;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.luxury-promo-section {
+			padding: 4.5rem 0;
+		}
+		.glass-card {
+			padding: 2rem 1.5rem;
+		}
+		.promo-subtitle {
+			font-size: 1.25rem;
+		}
+		.luxury-checklist li {
+			font-size: 0.95rem;
+		}
+	}
+</style>

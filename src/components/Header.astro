@@ -1,0 +1,224 @@
+---
+import CTAButton from './CTAButton.astro';
+---
+
+<header id="main-header" class="header">
+	<!-- Skip-to-content (accesibilidad) -->
+	<a href="#galeria-alojamientos" class="skip-link">Ir al contenido principal</a>
+
+	<div class="container header-content">
+		<a href="/ejemplo-villa-eucalipto-y-romero-glamping/" class="logo" aria-label="Inicio - Villa Eucalipto Y Romero">
+			Villa Eucalipto Y Romero
+		</a>
+
+		<nav class="nav-links" id="main-nav" aria-label="Navegación principal">
+			<a href="/ejemplo-villa-eucalipto-y-romero-glamping/">Inicio</a>
+			<a href="/ejemplo-villa-eucalipto-y-romero-glamping/quienes-somos">Quiénes Somos</a>
+			<a href="/ejemplo-villa-eucalipto-y-romero-glamping/reservas" class="nav-reservar">Reservar</a>
+		</nav>
+
+		<button
+			class="mobile-menu-toggle"
+			id="mobile-menu-toggle"
+			aria-label="Abrir menú de navegación"
+			aria-expanded="false"
+			aria-controls="main-nav"
+		>
+			<!-- Hamburger icon -->
+			<svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+			<!-- Close icon -->
+			<svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+		</button>
+	</div>
+</header>
+
+<style>
+	/* Skip link for accessibility */
+	.skip-link {
+		position: absolute;
+		top: -100%;
+		left: 1rem;
+		background: var(--color-gold);
+		color: var(--color-forest);
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		font-weight: 700;
+		z-index: 9999;
+		transition: top 0.2s;
+	}
+	.skip-link:focus { top: 0.5rem; }
+
+	/* Header base */
+	.header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: 100;
+		transition: background-color 0.4s ease, padding 0.4s ease;
+		background: transparent;
+		padding: 1.25rem 0;
+	}
+
+	.header.scrolled {
+		background: var(--color-forest);
+		padding: 0.85rem 0;
+		box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+	}
+
+	.header-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	/* Logo */
+	.logo {
+		font-family: var(--font-display);
+		font-size: 1.1rem;
+		color: var(--color-white);
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		text-decoration: none;
+		font-weight: 700;
+		flex-shrink: 0;
+		line-height: 1.2;
+	}
+
+	/* Nav desktop */
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.nav-links a {
+		color: rgba(255,255,255,0.88);
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 500;
+		transition: color 0.2s;
+	}
+
+	.nav-links a:hover,
+	.nav-links a:focus-visible { color: var(--color-gold); }
+
+	.nav-reservar {
+		background-color: var(--color-gold) !important;
+		color: var(--color-forest) !important;
+		padding: 0.55rem 1.25rem;
+		border-radius: 50px;
+		font-weight: 700 !important;
+		transition: background-color 0.3s ease !important;
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.nav-reservar:hover { background-color: white !important; }
+
+	/* Hamburger toggle */
+	.mobile-menu-toggle {
+		display: none;
+		background: none;
+		border: none;
+		color: white;
+		cursor: pointer;
+		padding: 0.4rem;
+		border-radius: 4px;
+		min-width: 44px;
+		min-height: 44px;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.2s;
+		flex-shrink: 0;
+	}
+
+	.mobile-menu-toggle:hover { background: rgba(255,255,255,0.1); }
+	.mobile-menu-toggle:focus-visible { outline: 2px solid var(--color-gold); }
+
+	.icon-close { display: none; }
+
+	/* Mobile menu open state controlled by .menu-open class */
+	:global(.menu-open) .icon-menu { display: none; }
+	:global(.menu-open) .icon-close { display: block; }
+
+	/* ═══ Mobile ═══ */
+	@media (max-width: 768px) {
+		.mobile-menu-toggle { display: flex; }
+
+		.nav-links {
+			/* Slide-down mobile menu */
+			position: absolute;
+			top: 100%;
+			left: 0;
+			width: 100%;
+			flex-direction: column;
+			background: var(--color-forest);
+			box-sizing: border-box;
+			padding: 1.5rem 1.5rem 2rem;
+			gap: 1.25rem;
+			align-items: flex-start;
+			transform: translateY(-120%);
+			opacity: 0;
+			pointer-events: none;
+			transition: transform 0.35s ease, opacity 0.35s ease;
+			box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+		}
+
+		:global(.menu-open) .nav-links {
+			transform: translateY(0);
+			opacity: 1;
+			pointer-events: all;
+		}
+
+		.nav-links a {
+			font-size: 1.1rem;
+			letter-spacing: 0.5px;
+		}
+
+		.nav-reservar {
+			width: 100%;
+			justify-content: center;
+			text-align: center;
+		}
+	}
+</style>
+
+<script>
+	// Scroll effect
+	const header = document.getElementById('main-header');
+	const onScroll = () => {
+		if (window.scrollY > 50) header?.classList.add('scrolled');
+		else header?.classList.remove('scrolled');
+	};
+	window.addEventListener('scroll', onScroll, { passive: true });
+	onScroll(); // Run once on load
+
+	// Hamburger toggle
+	const toggle = document.getElementById('mobile-menu-toggle');
+	toggle?.addEventListener('click', () => {
+		const isOpen = header?.classList.toggle('menu-open');
+		toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+		toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú de navegación');
+	});
+
+	// Close menu on nav link click (mobile)
+	document.querySelectorAll('#main-nav a').forEach(link => {
+		link.addEventListener('click', () => {
+			header?.classList.remove('menu-open');
+			toggle?.setAttribute('aria-expanded', 'false');
+		});
+	});
+
+	// Close menu on outside click
+	document.addEventListener('click', (e) => {
+		if (header?.classList.contains('menu-open') &&
+			!header.contains(e.target as Node)) {
+			header.classList.remove('menu-open');
+			toggle?.setAttribute('aria-expanded', 'false');
+		}
+	});
+</script>

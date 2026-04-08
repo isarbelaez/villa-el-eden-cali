@@ -1,0 +1,169 @@
+---
+---
+
+<!-- SearchBar overlapping at bottom of hero, like the reference image -->
+<div class="search-bar-wrapper">
+	<div class="search-bar">
+		<div class="search-field">
+			<label for="search-tipo">Tipo de alojamiento</label>
+			<select id="search-tipo">
+				<option value="">Todos</option>
+				<option value="suite">Suite</option>
+				<option value="glamping">Glamping</option>
+				<option value="cabana">Cabaña</option>
+			</select>
+		</div>
+		<div class="search-divider"></div>
+		<div class="search-field">
+			<label for="search-jacuzzi">Jacuzzi</label>
+			<select id="search-jacuzzi">
+				<option value="">Cualquiera</option>
+				<option value="cubierto">Cubierto</option>
+				<option value="al aire libre">Al aire libre</option>
+			</select>
+		</div>
+		<div class="search-divider"></div>
+		<div class="search-field">
+			<label for="search-precio">Precio</label>
+			<select id="search-precio">
+				<option value="">Todos los precios</option>
+				<option value="480000">$480.000 COP</option>
+				<option value="496000">$496.000 COP</option>
+			</select>
+		</div>
+		<button class="search-btn" id="search-btn" aria-label="Buscar alojamiento">
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+			<span>Buscar</span>
+		</button>
+	</div>
+</div>
+
+<style>
+	.search-bar-wrapper {
+		position: relative;
+		z-index: 20;
+		/* Pulls up to overlap with the hero bottom edge */
+		margin-top: -45px;
+		padding: 0 1.5rem;
+		display: flex;
+		justify-content: center;
+	}
+
+	.search-bar {
+		background: white;
+		border-radius: 60px;
+		padding: 1rem 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		box-shadow: 0 10px 40px rgba(26, 58, 42, 0.15), 0 2px 8px rgba(0,0,0,0.08);
+		width: 100%;
+		max-width: 800px;
+	}
+
+	.search-field {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		padding: 0 1rem;
+	}
+
+	.search-field label {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: var(--color-sage);
+		font-weight: 600;
+		margin-bottom: 0.2rem;
+	}
+
+	.search-field select {
+		border: none;
+		outline: none;
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		color: var(--color-forest);
+		font-weight: 500;
+		background: transparent;
+		cursor: pointer;
+		padding: 0;
+		width: 100%;
+	}
+
+	.search-divider {
+		width: 1px;
+		height: 40px;
+		background: var(--color-mist);
+		flex-shrink: 0;
+	}
+
+	.search-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background-color: var(--color-forest);
+		color: white;
+		border: none;
+		border-radius: 50px;
+		padding: 0.8rem 1.5rem;
+		font-family: var(--font-body);
+		font-weight: 600;
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		flex-shrink: 0;
+		white-space: nowrap;
+	}
+
+	.search-btn:hover {
+		background-color: var(--color-gold);
+	}
+
+	@media (max-width: 768px) {
+		.search-bar-wrapper {
+			margin-top: -30px;
+		}
+
+		.search-bar {
+			border-radius: 16px;
+			flex-direction: column;
+			padding: 1.5rem;
+			gap: 1rem;
+		}
+
+		.search-divider { display: none; }
+
+		.search-field {
+			padding: 0;
+			width: 100%;
+		}
+
+		.search-field select {
+			padding: 0.5rem 0;
+			border-bottom: 1px solid var(--color-mist);
+		}
+
+		.search-btn {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>
+
+<script>
+	const searchBtn = document.getElementById('search-btn');
+	searchBtn?.addEventListener('click', () => {
+		const tipo = (document.getElementById('search-tipo') as HTMLSelectElement)?.value;
+		const jacuzzi = (document.getElementById('search-jacuzzi') as HTMLSelectElement)?.value;
+		const precio = (document.getElementById('search-precio') as HTMLSelectElement)?.value;
+		
+		// scroll to gallery and filter
+		const gallery = document.getElementById('galeria-alojamientos');
+		gallery?.scrollIntoView({ behavior: 'smooth' });
+
+		// Dispatch filter event
+		window.dispatchEvent(new CustomEvent('filterAlojamientos', {
+			detail: { tipo, jacuzzi, precio }
+		}));
+	});
+</script>

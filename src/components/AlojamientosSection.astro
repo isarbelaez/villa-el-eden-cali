@@ -1,0 +1,659 @@
+---
+interface GalleryItem {
+	id: string;
+	nombre: string;
+	imagen: string;
+	precio: number;
+	jacuzzi: string;
+	tipo: string;
+	capacidad: number;
+	resumen?: string;
+	amenidades?: string[];
+}
+
+interface Props {
+	alojamientos: GalleryItem[];
+	pageSize?: number;
+}
+
+const { alojamientos, pageSize = 6 } = Astro.props;
+
+// Serialize data safely for client-side use
+const jsonData = JSON.stringify(alojamientos.map(a => ({
+	id: a.id,
+	nombre: a.nombre,
+	imagen: a.imagen,
+	precio: a.precio,
+	jacuzzi: a.jacuzzi,
+	tipo: a.tipo,
+	capacidad: a.capacidad,
+	resumen: a.resumen || '',
+	amenidades: a.amenidades || [],
+})));
+---
+
+<!-- ===== SEARCH BAR (overlapping hero bottom) ===== -->
+<div class="search-bar-wrapper">
+	<div class="search-bar">
+		<div class="search-field">
+			<label for="search-tipo">🏡 Tipo de alojamiento</label>
+			<select id="search-tipo">
+				<option value="">Todos</option>
+				<option value="suite">Suite</option>
+				<option value="glamping">Glamping</option>
+				<option value="cabana">Cabaña</option>
+			</select>
+		</div>
+		<div class="search-divider" aria-hidden="true"></div>
+		<div class="search-field">
+			<label for="search-jacuzzi">♨️ Jacuzzi</label>
+			<select id="search-jacuzzi">
+				<option value="">Cualquiera</option>
+				<option value="cubierto">Cubierto</option>
+				<option value="al aire libre">Al aire libre</option>
+			</select>
+		</div>
+		<div class="search-divider" aria-hidden="true"></div>
+		<div class="search-field">
+			<label for="search-precio">💰 Precio</label>
+			<select id="search-precio">
+				<option value="">Todos</option>
+				<option value="480000">$480.000</option>
+				<option value="496000">$496.000</option>
+			</select>
+		</div>
+		<button class="search-btn" id="search-btn" aria-label="Filtrar alojamientos">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+			<span>Buscar</span>
+		</button>
+	</div>
+</div>
+
+<!-- ===== GALLERY SECTION ===== -->
+<section class="gallery-section" id="galeria-alojamientos">
+	<div class="container">
+		<div class="gallery-header" data-aos="fade-up">
+			<h2>Alojamientos más visitados</h2>
+			<p>Descubre nuestros refugios de lujo en la naturaleza y elige el perfecto para tu escapada.</p>
+		</div>
+
+		<!-- Cards rendered by JS into this container -->
+		<div class="gallery-grid" id="gallery-grid" role="list" aria-label="Lista de alojamientos">
+			<!-- Populated by JS for filtering + pagination -->
+		</div>
+
+		<!-- No results message -->
+		<div class="no-results" id="no-results" style="display:none;" role="status" aria-live="polite">
+			<span>😕</span>
+			<p>No hay alojamientos con esos filtros.</p>
+			<button id="clear-filters">Ver todos</button>
+		</div>
+
+		<!-- Pagination -->
+		<div class="pagination" id="pagination" role="navigation" aria-label="Paginación de alojamientos">
+			<button class="pg-btn" id="pg-prev" aria-label="Página anterior" disabled>← Anterior</button>
+			<div class="pg-dots" id="pg-dots" aria-live="polite"></div>
+			<button class="pg-btn" id="pg-next" aria-label="Siguiente página">Siguiente →</button>
+		</div>
+	</div>
+</section>
+
+<!-- Pass data to client -->
+<script type="application/json" id="alojamientos-data" set:html={jsonData}></script>
+
+<script define:vars={{ pageSize }}>
+(function() {
+	const raw = document.getElementById('alojamientos-data');
+	if (!raw) return;
+
+	/** @type {Array<{id:string,nombre:string,imagen:string,precio:number,jacuzzi:string,tipo:string,capacidad:number,resumen:string,amenidades:string[]}>} */
+	const ALL = JSON.parse(raw.textContent || '[]');
+
+	let filtered = [...ALL];
+	let currentPage = 0;
+
+	// ─── Helpers ────────────────────────────────────────────────────────────────
+
+	function formatCOP(n) {
+		return new Intl.NumberFormat('es-CO', {
+			style: 'currency', currency: 'COP', minimumFractionDigits: 0
+		}).format(n);
+	}
+
+	function badgeLabel(tipo) {
+		return tipo === 'suite' ? '🛁 Suite' : tipo === 'glamping' ? '⛺ Glamping' : '🏡 Cabaña';
+	}
+
+	function jacuzziEmoji(jac) {
+		return jac === 'cubierto' ? '🛁' : '♨️';
+	}
+
+	function amenidadIcon(amenidad) {
+		const lower = amenidad.toLowerCase();
+		if (lower.includes('jacuzzi')) return '🛁';
+		if (lower.includes('cama')) return '🛏️';
+		if (lower.includes('tv') || lower.includes('smart')) return '📺';
+		if (lower.includes('wifi')) return '📶';
+		if (lower.includes('cafetera')) return '☕';
+		if (lower.includes('nevera')) return '🧊';
+		if (lower.includes('red') || lower.includes('catamarán')) return '🌙';
+		if (lower.includes('baño')) return '🚿';
+		if (lower.includes('comedor') || lower.includes('cocina')) return '🍽️';
+		if (lower.includes('jardín') || lower.includes('deck')) return '🌿';
+		if (lower.includes('audio')) return '🎵';
+		return '✅';
+	}
+
+	// ─── Render ─────────────────────────────────────────────────────────────────
+
+	function renderPage() {
+		const grid = document.getElementById('gallery-grid');
+		const noResults = document.getElementById('no-results');
+		const pagination = document.getElementById('pagination');
+		if (!grid) return;
+
+		const totalPages = Math.ceil(filtered.length / pageSize);
+		const start = currentPage * pageSize;
+		const items = filtered.slice(start, start + pageSize);
+
+		// No results
+		if (filtered.length === 0) {
+			grid.innerHTML = '';
+			if (noResults) noResults.style.display = 'block';
+			if (pagination) pagination.style.display = 'none';
+			return;
+		}
+
+		if (noResults) noResults.style.display = 'none';
+		if (pagination) pagination.style.display = filtered.length > pageSize ? 'flex' : 'none';
+
+		grid.innerHTML = items.map((a, idx) => {
+			const chips = a.amenidades.slice(0, 3).map(am =>
+				`<span class="chip">${amenidadIcon(am)} ${am}</span>`
+			).join('');
+			const moreChips = a.amenidades.length > 3
+				? `<span class="chip chip-more">+${a.amenidades.length - 3} más</span>`
+				: '';
+
+			return `
+			<article class="gallery-card" role="listitem" data-aos="fade-up" data-aos-delay="${idx * 80}">
+				<a href="/ejemplo-villa-eucalipto-y-romero-glamping/alojamiento/${a.id}" class="card-img-link" aria-label="Ver detalles de ${a.nombre}">
+					<div class="card-img-wrap">
+						<img src="${a.imagen}" alt="Foto de ${a.nombre} - alojamiento glamping en Villa Eucalipto Y Romero" loading="lazy" />
+						<span class="badge badge-${a.tipo}">${badgeLabel(a.tipo)}</span>
+					</div>
+				</a>
+				<div class="card-body">
+					<a href="/ejemplo-villa-eucalipto-y-romero-glamping/alojamiento/${a.id}" class="card-title-link">
+						<h3>${a.nombre}</h3>
+					</a>
+					${a.resumen ? `<p class="card-resumen">${a.resumen}</p>` : ''}
+					
+					<div class="card-meta-box">
+						<div class="meta-row">
+							<span class="meta-item">
+								<span class="meta-icon" aria-hidden="true">👥</span> ${a.capacidad} pax
+							</span>
+							<span class="meta-item">
+								<span class="meta-icon" aria-hidden="true">${jacuzziEmoji(a.jacuzzi)}</span> Jacuzzi ${a.jacuzzi}
+							</span>
+						</div>
+						${a.amenidades.length > 0 ? `<div class="amenidades-chips">${chips}${moreChips}</div>` : ''}
+					</div>
+					
+					<div class="card-footer">
+						<div class="precio-wrap">
+							<span class="precio">${formatCOP(a.precio)}</span>
+							<span class="precio-label">/ noche · 2 pax</span>
+						</div>
+						<a href="/ejemplo-villa-eucalipto-y-romero-glamping/alojamiento/${a.id}"
+							class="card-details-btn"
+							aria-label="Ver detalles de ${a.nombre}">
+							Ver más
+						</a>
+					</div>
+				</div>
+			</article>`;
+		}).join('');
+
+		renderPagination(totalPages);
+
+		// Re-trigger AOS on new elements
+		if (window.AOS) window.AOS.refresh();
+	}
+
+	function renderPagination(totalPages) {
+		const prev = document.getElementById('pg-prev');
+		const next = document.getElementById('pg-next');
+		const dots = document.getElementById('pg-dots');
+
+		if (prev) prev.disabled = currentPage === 0;
+		if (next) next.disabled = currentPage >= totalPages - 1;
+
+		if (dots) {
+			dots.innerHTML = Array.from({ length: totalPages }, (_, i) =>
+				`<button class="pg-dot ${i === currentPage ? 'active' : ''}"
+					aria-label="Ir a página ${i + 1}"
+					aria-current="${i === currentPage ? 'page' : 'false'}"
+					data-page="${i}"></button>`
+			).join('');
+
+			dots.querySelectorAll('.pg-dot').forEach(btn => {
+				btn.addEventListener('click', () => {
+					currentPage = parseInt(btn.dataset.page || '0');
+					renderPage();
+					scrollToGallery();
+				});
+			});
+		}
+	}
+
+	function scrollToGallery() {
+		document.getElementById('galeria-alojamientos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	// ─── Filter ─────────────────────────────────────────────────────────────────
+
+	function applyFilter() {
+		const tipo = document.getElementById('search-tipo')?.value || '';
+		const jacuzzi = document.getElementById('search-jacuzzi')?.value || '';
+		const precio = document.getElementById('search-precio')?.value || '';
+
+		filtered = ALL.filter(a => {
+			const matchesTipo = !tipo || a.tipo === tipo;
+			const matchesJacuzzi = !jacuzzi || a.jacuzzi === jacuzzi;
+			const matchesPrecio = !precio || String(a.precio) === precio;
+			return matchesTipo && matchesJacuzzi && matchesPrecio;
+		});
+
+		currentPage = 0;
+		renderPage();
+		scrollToGallery();
+	}
+
+	function clearFilter() {
+		['search-tipo', 'search-jacuzzi', 'search-precio'].forEach(id => {
+			const el = document.getElementById(id);
+			if (el) el.value = '';
+		});
+		filtered = [...ALL];
+		currentPage = 0;
+		renderPage();
+	}
+
+	// ─── Events ─────────────────────────────────────────────────────────────────
+
+	document.getElementById('search-btn')?.addEventListener('click', applyFilter);
+	document.getElementById('clear-filters')?.addEventListener('click', clearFilter);
+
+	document.getElementById('pg-prev')?.addEventListener('click', () => {
+		if (currentPage > 0) { currentPage--; renderPage(); scrollToGallery(); }
+	});
+	document.getElementById('pg-next')?.addEventListener('click', () => {
+		const totalPages = Math.ceil(filtered.length / pageSize);
+		if (currentPage < totalPages - 1) { currentPage++; renderPage(); scrollToGallery(); }
+	});
+
+	// Trigger filter on Enter key in selects
+	['search-tipo', 'search-jacuzzi', 'search-precio'].forEach(id => {
+		document.getElementById(id)?.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') applyFilter();
+		});
+	});
+
+	// ─── Init ───────────────────────────────────────────────────────────────────
+	renderPage();
+})();
+</script>
+
+<style>
+/* ═══════════ SEARCH BAR ═══════════ */
+.search-bar-wrapper {
+	position: relative;
+	z-index: 20;
+	margin-top: -45px;
+	padding: 0 1.5rem;
+	display: flex;
+	justify-content: center;
+}
+
+.search-bar {
+	background: white;
+	border-radius: 60px;
+	padding: 1rem 1.2rem 1rem 1.8rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	box-shadow: 0 10px 40px rgba(26,58,42,0.15), 0 2px 8px rgba(0,0,0,0.08);
+	width: 100%;
+	max-width: 860px;
+}
+
+.search-field {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 0 0.8rem;
+}
+
+.search-field label {
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.8px;
+	color: var(--color-sage);
+	font-weight: 700;
+	margin-bottom: 0.25rem;
+	white-space: nowrap;
+}
+
+.search-field select {
+	border: none;
+	outline: none;
+	font-family: var(--font-body);
+	font-size: 0.9rem;
+	color: var(--color-forest);
+	font-weight: 500;
+	background: transparent;
+	cursor: pointer;
+	padding: 0;
+	width: 100%;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.search-divider {
+	width: 1px;
+	height: 38px;
+	background: var(--color-mist);
+	flex-shrink: 0;
+}
+
+.search-btn {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	background-color: var(--color-forest);
+	color: white;
+	border: none;
+	border-radius: 50px;
+	padding: 0.85rem 1.5rem;
+	font-family: var(--font-body);
+	font-weight: 600;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.15s ease;
+	flex-shrink: 0;
+	white-space: nowrap;
+	min-height: 44px;
+	min-width: 44px;
+}
+
+.search-btn:hover { background-color: var(--color-gold); }
+.search-btn:active { transform: scale(0.97); }
+.search-btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+
+/* ═══════════ GALLERY SECTION ═══════════ */
+.gallery-section {
+	padding: 3.5rem 0 5rem;
+	background-color: var(--color-white);
+}
+
+.gallery-header {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.gallery-header h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); margin-bottom: 0.6rem; }
+.gallery-header p { color: #777; max-width: 480px; margin: 0 auto; font-size: 1rem; line-height: 1.6; }
+
+/* ═══════════ CARDS GRID ═══════════ */
+.gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.75rem;
+}
+
+.gallery-card {
+	background: white;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(26,58,42,0.07);
+	transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.gallery-card:hover {
+	transform: translateY(-7px);
+	box-shadow: 0 16px 40px rgba(26,58,42,0.14);
+}
+
+.card-img-wrap {
+	position: relative;
+	height: 210px;
+	overflow: hidden;
+}
+
+.card-img-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.5s ease;
+	display: block;
+}
+
+.gallery-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+/* Badges */
+.badge {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	padding: 0.25rem 0.75rem;
+	border-radius: 50px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.3px;
+	backdrop-filter: blur(6px);
+}
+.badge-suite    { background: rgba(200,151,62,0.9);  color: white; }
+.badge-glamping { background: rgba(26,58,42,0.9);    color: white; }
+.badge-cabana   { background: rgba(74,103,65,0.9);   color: white; }
+
+/* Card body */
+.card-body { padding: 1.25rem 1.5rem 1.5rem; }
+
+.card-title-link {
+	text-decoration: none;
+	color: inherit;
+}
+.card-title-link:hover h3 {
+	color: var(--color-gold);
+}
+
+.card-body h3 { font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--color-forest); transition: color 0.3s; }
+
+.card-resumen { font-size: 0.88rem; color: #888; margin-bottom: 1.2rem; line-height: 1.5; }
+
+/* Boxed metadata */
+.card-meta-box {
+	background: var(--color-mist);
+	border-radius: 8px;
+	padding: 0.85rem;
+	margin-bottom: 1.2rem;
+	border: 1px solid rgba(26,58,42,0.05);
+}
+
+.meta-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.5rem;
+}
+
+.meta-item {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 0.82rem;
+	color: var(--color-forest);
+	font-weight: 600;
+}
+
+.meta-icon {
+	opacity: 0.8;
+}
+
+/* Amenidades chips */
+.amenidades-chips { 
+	display: flex; 
+	flex-wrap: wrap; 
+	gap: 0.35rem; 
+	margin-top: 0.75rem; 
+	padding-top: 0.75rem;
+	border-top: 1px dashed rgba(26,58,42,0.15);
+}
+
+.chip {
+	background: white;
+	color: var(--color-forest);
+	padding: 0.2rem 0.6rem;
+	border-radius: 50px;
+	font-size: 0.72rem;
+	font-weight: 500;
+	white-space: nowrap;
+	border: 1px solid rgba(26,58,42,0.1);
+}
+
+.chip-more { background: transparent; border: 1px dashed #aaa; color: #888; }
+
+/* Card footer */
+.card-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 0.25rem;
+	gap: 0.75rem;
+}
+
+.precio-wrap { display: flex; flex-direction: column; line-height: 1.25; }
+.precio { font-size: 1.1rem; font-weight: 700; color: var(--color-forest); font-family: var(--font-display); }
+.precio-label { font-size: 0.73rem; color: #aaa; }
+
+.card-details-btn {
+	background-color: transparent;
+	color: var(--color-forest);
+	border: 1.5px solid var(--color-forest);
+	padding: 0.45rem 1rem;
+	border-radius: 50px;
+	font-size: 0.82rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+}
+.card-details-btn:hover { background-color: var(--color-forest); color: white; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(26,58,42,0.15); }
+.card-details-btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+
+/* ═══════════ NO RESULTS ═══════════ */
+.no-results {
+	text-align: center;
+	padding: 3.5rem 1rem;
+	color: #999;
+}
+.no-results span { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+.no-results p { font-size: 1rem; margin-bottom: 1.25rem; }
+.no-results button {
+	background: var(--color-forest);
+	color: white;
+	border: none;
+	border-radius: 50px;
+	padding: 0.6rem 1.5rem;
+	font-family: var(--font-body);
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	min-height: 44px;
+}
+.no-results button:hover { background-color: var(--color-gold); }
+
+/* ═══════════ PAGINATION ═══════════ */
+.pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	margin-top: 2.5rem;
+}
+
+.pg-btn {
+	background: white;
+	border: 1.5px solid var(--color-forest);
+	color: var(--color-forest);
+	border-radius: 50px;
+	padding: 0.6rem 1.4rem;
+	font-family: var(--font-body);
+	font-weight: 600;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: all 0.3s;
+	min-height: 44px;
+}
+.pg-btn:hover:not(:disabled) { background: var(--color-forest); color: white; }
+.pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.pg-dots { display: flex; gap: 0.5rem; }
+
+.pg-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	border: none;
+	background: var(--color-mist);
+	cursor: pointer;
+	transition: all 0.3s;
+	padding: 0;
+}
+.pg-dot.active { background: var(--color-forest); transform: scale(1.3); }
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media (max-width: 1024px) {
+	.gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+	.search-bar-wrapper { margin-top: -25px; padding: 0 1rem; }
+
+	.search-bar {
+		border-radius: 16px;
+		flex-direction: column;
+		padding: 1.25rem;
+		gap: 0.85rem;
+		align-items: stretch;
+	}
+
+	.search-divider { display: none; }
+
+	.search-field {
+		padding: 0;
+		border-bottom: 1px solid var(--color-mist);
+		padding-bottom: 0.6rem;
+	}
+
+	.search-field:last-of-type { border-bottom: none; }
+
+	.search-field select { padding: 0.3rem 0; font-size: 1rem; }
+
+	.search-btn { width: 100%; justify-content: center; border-radius: 10px; }
+
+	.gallery-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+
+	.gallery-section { padding: 2.5rem 0 4rem; }
+}
+
+@media (max-width: 480px) {
+	.gallery-header h2 { font-size: 1.5rem; }
+	.card-img-wrap { height: 190px; }
+	.card-body { padding: 1rem 1.1rem 1.25rem; }
+}
+</style>
