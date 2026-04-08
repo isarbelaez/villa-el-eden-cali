@@ -1,18 +1,19 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import Hero from '../components/Hero.astro';
-import AlojamientosSectionReact from '../components/AlojamientosSectionReact.tsx';
-import LuxuryPlanPromo from '../components/LuxuryPlanPromo.astro';
-import { getCollection } from 'astro:content';
+import MainLayout from "../layouts/MainLayout.astro";
+import Hero from "../components/Hero.astro";
+import AlojamientosSectionReact from "../components/AlojamientosSectionReact.tsx";
+import LuxuryPlanPromo from "../components/LuxuryPlanPromo.astro";
+import { getCollection } from "astro:content";
 
-const allAlojamientos = await getCollection('alojamientos');
+const allAlojamientos = await getCollection("alojamientos");
 allAlojamientos.sort((a, b) => a.data.orden - b.data.orden);
 
-const galleryItems = allAlojamientos.map(a => ({
+const galleryItems = allAlojamientos.map((a) => ({
 	id: a.id,
 	nombre: a.data.nombre,
 	imagen: a.data.imagen,
 	precio: a.data.precio,
+	precioMax: a.data.precioMax,
 	jacuzzi: a.data.jacuzzi,
 	tipo: a.data.tipo,
 	capacidad: a.data.capacidad,
@@ -20,7 +21,10 @@ const galleryItems = allAlojamientos.map(a => ({
 	amenidades: a.data.amenidades,
 }));
 
-const heroImage = "https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2670&auto=format&fit=crop";
+console.log(allAlojamientos.map((a) => a.data.nombre));
+
+const heroImage =
+	"https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2670&auto=format&fit=crop";
 ---
 
 <MainLayout
@@ -35,17 +39,22 @@ const heroImage = "https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=8
 	/>
 
 	<!-- 2. SEARCH BAR + GALLERY (React Interactive Component) -->
-	<AlojamientosSectionReact client:load alojamientos={galleryItems} pageSize={6} />
+	<AlojamientosSectionReact
+		client:load
+		alojamientos={galleryItems}
+		pageSize={6}
+	/>
 
 	<!-- 3. BIENVENIDA -->
 	<section class="welcome section">
 		<div class="container" data-aos="fade-up">
 			<h2 class="section-title">Bienvenida a Villa Eucalipto y Romero</h2>
 			<p class="welcome-text">
-				Nuestra villa está pensada para brindarte una experiencia inolvidable. Cabañas y glampings
-				de lujo integrados con la naturaleza, donde cada detalle ha sido diseñado para tu máximo
-				confort. Desconéctate de la rutina y reconéctate con lo esencial en un ambiente de
-				sofisticación rústica.
+				Nuestra villa está pensada para brindarte una experiencia
+				inolvidable. Cabañas y glampings de lujo integrados con la
+				naturaleza, donde cada detalle ha sido diseñado para tu máximo
+				confort. Desconéctate de la rutina y reconéctate con lo esencial
+				en un ambiente de sofisticación rústica.
 			</p>
 		</div>
 	</section>
@@ -55,7 +64,9 @@ const heroImage = "https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=8
 </MainLayout>
 
 <style>
-	.section { padding: 5rem 0; }
+	.section {
+		padding: 5rem 0;
+	}
 
 	/* Bienvenida */
 	.welcome-text {
@@ -67,7 +78,10 @@ const heroImage = "https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=8
 		color: #555;
 	}
 
-	.section-title { text-align: center; margin-bottom: 0.5rem; }
+	.section-title {
+		text-align: center;
+		margin-bottom: 0.5rem;
+	}
 
 	.section-subtitle {
 		text-align: center;
@@ -80,6 +94,8 @@ const heroImage = "https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=8
 
 	/* Mobile */
 	@media (max-width: 768px) {
-		.section { padding: 3.5rem 0; }
+		.section {
+			padding: 3.5rem 0;
+		}
 	}
 </style>

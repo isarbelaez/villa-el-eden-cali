@@ -1,20 +1,28 @@
 ---
-import CTAButton from './CTAButton.astro';
+import CTAButton from "./CTAButton.astro";
 ---
 
 <header id="main-header" class="header">
 	<!-- Skip-to-content (accesibilidad) -->
-	<a href="#galeria-alojamientos" class="skip-link">Ir al contenido principal</a>
+	<a href="#galeria-alojamientos" class="skip-link"
+		>Ir al contenido principal</a
+	>
 
 	<div class="container header-content">
-		<a href="/ejemplo-villa-eucalipto-y-romero-glamping/" class="logo" aria-label="Inicio - Villa Eucalipto Y Romero">
+		<a
+			href={`${import.meta.env.BASE_URL}/`}
+			class="logo"
+			aria-label="Inicio - Villa Eucalipto Y Romero"
+		>
 			Villa Eucalipto Y Romero
 		</a>
 
 		<nav class="nav-links" id="main-nav" aria-label="Navegación principal">
-			<a href="/ejemplo-villa-eucalipto-y-romero-glamping/">Inicio</a>
-			<a href="/ejemplo-villa-eucalipto-y-romero-glamping/quienes-somos">Quiénes Somos</a>
-			<a href="/ejemplo-villa-eucalipto-y-romero-glamping/reservas" class="nav-reservar">Reservar</a>
+			<a href={`${import.meta.env.BASE_URL}/`}>Inicio</a>
+			<a href={`${import.meta.env.BASE_URL}/quienes-somos`}>Quiénes Somos</a>
+			<a href={`${import.meta.env.BASE_URL}/reservas`} class="nav-reservar"
+				>Reservar</a
+			>
 		</nav>
 
 		<button
@@ -25,9 +33,44 @@ import CTAButton from './CTAButton.astro';
 			aria-controls="main-nav"
 		>
 			<!-- Hamburger icon -->
-			<svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+			<svg
+				class="icon-menu"
+				xmlns="http://www.w3.org/2000/svg"
+				width="26"
+				height="26"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+				><line x1="3" y1="6" x2="21" y2="6"></line><line
+					x1="3"
+					y1="12"
+					x2="21"
+					y2="12"></line><line x1="3" y1="18" x2="21" y2="18"
+				></line></svg
+			>
 			<!-- Close icon -->
-			<svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+			<svg
+				class="icon-close"
+				xmlns="http://www.w3.org/2000/svg"
+				width="26"
+				height="26"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+				><line x1="18" y1="6" x2="6" y2="18"></line><line
+					x1="6"
+					y1="6"
+					x2="18"
+					y2="18"></line></svg
+			>
 		</button>
 	</div>
 </header>
@@ -46,7 +89,9 @@ import CTAButton from './CTAButton.astro';
 		z-index: 9999;
 		transition: top 0.2s;
 	}
-	.skip-link:focus { top: 0.5rem; }
+	.skip-link:focus {
+		top: 0.5rem;
+	}
 
 	/* Header base */
 	.header {
@@ -55,7 +100,9 @@ import CTAButton from './CTAButton.astro';
 		left: 0;
 		width: 100%;
 		z-index: 100;
-		transition: background-color 0.4s ease, padding 0.4s ease;
+		transition:
+			background-color 0.4s ease,
+			padding 0.4s ease;
 		background: transparent;
 		padding: 1.25rem 0;
 	}
@@ -63,7 +110,7 @@ import CTAButton from './CTAButton.astro';
 	.header.scrolled {
 		background: var(--color-forest);
 		padding: 0.85rem 0;
-		box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+		box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 	}
 
 	.header-content {
@@ -94,7 +141,7 @@ import CTAButton from './CTAButton.astro';
 	}
 
 	.nav-links a {
-		color: rgba(255,255,255,0.88);
+		color: rgba(255, 255, 255, 0.88);
 		font-size: 0.85rem;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -103,7 +150,9 @@ import CTAButton from './CTAButton.astro';
 	}
 
 	.nav-links a:hover,
-	.nav-links a:focus-visible { color: var(--color-gold); }
+	.nav-links a:focus-visible {
+		color: var(--color-gold);
+	}
 
 	.nav-reservar {
 		background-color: var(--color-gold) !important;
@@ -117,7 +166,9 @@ import CTAButton from './CTAButton.astro';
 		align-items: center;
 	}
 
-	.nav-reservar:hover { background-color: white !important; }
+	.nav-reservar:hover {
+		background-color: white !important;
+	}
 
 	/* Hamburger toggle */
 	.mobile-menu-toggle {
@@ -136,18 +187,30 @@ import CTAButton from './CTAButton.astro';
 		flex-shrink: 0;
 	}
 
-	.mobile-menu-toggle:hover { background: rgba(255,255,255,0.1); }
-	.mobile-menu-toggle:focus-visible { outline: 2px solid var(--color-gold); }
+	.mobile-menu-toggle:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+	.mobile-menu-toggle:focus-visible {
+		outline: 2px solid var(--color-gold);
+	}
 
-	.icon-close { display: none; }
+	.icon-close {
+		display: none;
+	}
 
 	/* Mobile menu open state controlled by .menu-open class */
-	:global(.menu-open) .icon-menu { display: none; }
-	:global(.menu-open) .icon-close { display: block; }
+	:global(.menu-open) .icon-menu {
+		display: none;
+	}
+	:global(.menu-open) .icon-close {
+		display: block;
+	}
 
 	/* ═══ Mobile ═══ */
 	@media (max-width: 768px) {
-		.mobile-menu-toggle { display: flex; }
+		.mobile-menu-toggle {
+			display: flex;
+		}
 
 		.nav-links {
 			/* Slide-down mobile menu */
@@ -164,8 +227,10 @@ import CTAButton from './CTAButton.astro';
 			transform: translateY(-120%);
 			opacity: 0;
 			pointer-events: none;
-			transition: transform 0.35s ease, opacity 0.35s ease;
-			box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+			transition:
+				transform 0.35s ease,
+				opacity 0.35s ease;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 		}
 
 		:global(.menu-open) .nav-links {
@@ -189,36 +254,41 @@ import CTAButton from './CTAButton.astro';
 
 <script>
 	// Scroll effect
-	const header = document.getElementById('main-header');
+	const header = document.getElementById("main-header");
 	const onScroll = () => {
-		if (window.scrollY > 50) header?.classList.add('scrolled');
-		else header?.classList.remove('scrolled');
+		if (window.scrollY > 50) header?.classList.add("scrolled");
+		else header?.classList.remove("scrolled");
 	};
-	window.addEventListener('scroll', onScroll, { passive: true });
+	window.addEventListener("scroll", onScroll, { passive: true });
 	onScroll(); // Run once on load
 
 	// Hamburger toggle
-	const toggle = document.getElementById('mobile-menu-toggle');
-	toggle?.addEventListener('click', () => {
-		const isOpen = header?.classList.toggle('menu-open');
-		toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-		toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú de navegación');
+	const toggle = document.getElementById("mobile-menu-toggle");
+	toggle?.addEventListener("click", () => {
+		const isOpen = header?.classList.toggle("menu-open");
+		toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+		toggle.setAttribute(
+			"aria-label",
+			isOpen ? "Cerrar menú" : "Abrir menú de navegación",
+		);
 	});
 
 	// Close menu on nav link click (mobile)
-	document.querySelectorAll('#main-nav a').forEach(link => {
-		link.addEventListener('click', () => {
-			header?.classList.remove('menu-open');
-			toggle?.setAttribute('aria-expanded', 'false');
+	document.querySelectorAll("#main-nav a").forEach((link) => {
+		link.addEventListener("click", () => {
+			header?.classList.remove("menu-open");
+			toggle?.setAttribute("aria-expanded", "false");
 		});
 	});
 
 	// Close menu on outside click
-	document.addEventListener('click', (e) => {
-		if (header?.classList.contains('menu-open') &&
-			!header.contains(e.target as Node)) {
-			header.classList.remove('menu-open');
-			toggle?.setAttribute('aria-expanded', 'false');
+	document.addEventListener("click", (e) => {
+		if (
+			header?.classList.contains("menu-open") &&
+			!header.contains(e.target as Node)
+		) {
+			header.classList.remove("menu-open");
+			toggle?.setAttribute("aria-expanded", "false");
 		}
 	});
 </script>

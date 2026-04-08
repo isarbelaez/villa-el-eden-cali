@@ -1,17 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './AlojamientosSectionReact.css';
+import CardLodging from './booking/CardLodging.tsx';
+import type { Alojamiento } from "../content.config.ts";
 
-export interface GalleryItem {
+export type GalleryItem = Omit<Alojamiento, 'destacada' | 'galeria' | 'orden'> & {
 	id: string;
-	nombre: string;
-	imagen: string;
-	precio: number;
-	jacuzzi: string;
-	tipo: string;
-	capacidad: number;
-	resumen?: string;
-	amenidades?: string[];
-}
+};
 
 interface Props {
 	alojamientos: GalleryItem[];
@@ -47,31 +41,6 @@ export default function AlojamientosReact({ alojamientos, pageSize = 6 }: Props)
 		// But a user might like a "Buscar" button. Since the filter is real-time via state,
 		// the button is mainly cosmetic, but we can animate a scroll down.
 		document.getElementById('galeria-alojamientos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	};
-
-	const formatCOP = (n: number) => {
-		return new Intl.NumberFormat('es-CO', {
-			style: 'currency', currency: 'COP', minimumFractionDigits: 0
-		}).format(n);
-	};
-
-	const badgeLabel = (t: string) => t === 'suite' ? '🛁 Suite' : t === 'glamping' ? '⛺ Glamping' : '🏡 Cabaña';
-	const jacuzziEmoji = (jac: string) => jac === 'cubierto' ? '🛁' : '♨️';
-
-	const amenidadIcon = (amenidad: string) => {
-		const lower = amenidad.toLowerCase();
-		if (lower.includes('jacuzzi')) return '🛁';
-		if (lower.includes('cama')) return '🛏️';
-		if (lower.includes('tv') || lower.includes('smart')) return '📺';
-		if (lower.includes('wifi')) return '📶';
-		if (lower.includes('cafetera')) return '☕';
-		if (lower.includes('nevera')) return '🧊';
-		if (lower.includes('red') || lower.includes('catamarán')) return '🌙';
-		if (lower.includes('baño')) return '🚿';
-		if (lower.includes('comedor') || lower.includes('cocina')) return '🍽️';
-		if (lower.includes('jardín') || lower.includes('deck')) return '🌿';
-		if (lower.includes('audio')) return '🎵';
-		return '✅';
 	};
 
 	return (
@@ -130,57 +99,10 @@ export default function AlojamientosReact({ alojamientos, pageSize = 6 }: Props)
 							<button onClick={() => { setTipo(''); setJacuzzi(''); setPrecio(''); }}>Borrar Filtros</button>
 						</div>
 					) : (
-						<div className="lux-grid">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 							{displayedItems.map((a, idx) => {
 								return (
-									<article className="lux-card" key={a.id} data-aos="fade-up" data-aos-delay={(idx % 6) * 100}>
-										<a href={`/ejemplo-villa-eucalipto-y-romero-glamping/alojamiento/${a.id}`} className="lux-card-img-link">
-											<div className="lux-card-img-wrapper">
-												<img src={a.imagen} alt={a.nombre} loading="lazy" />
-												<div className={`lux-badge lux-badge-${a.tipo}`}>{badgeLabel(a.tipo)}</div>
-											</div>
-										</a>
-										
-										<div className="lux-card-body">
-											<div className="lux-card-top">
-												<a href={`/ejemplo-villa-eucalipto-y-romero-glamping/alojamiento/${a.id}`} className="lux-card-title">
-													<h3>{a.nombre}</h3>
-												</a>
-												<div className="lux-card-price">
-													<strong>{formatCOP(a.precio)}</strong>
-													<small>/ noche</small>
-												</div>
-											</div>
-
-											{a.resumen && <p className="lux-card-summary">{a.resumen}</p>}
-
-											<div className="lux-card-meta">
-												<span className="lux-meta-pill">
-													<span className="lux-icon">👥</span> {a.capacidad} pax
-												</span>
-												<span className="lux-meta-pill">
-													<span className="lux-icon">{jacuzziEmoji(a.jacuzzi)}</span> Jacuzzi {a.jacuzzi}
-												</span>
-											</div>
-
-											<div className="lux-card-bottom">
-												<div className="lux-card-amenities">
-													{a.amenidades?.slice(0, 3).map((am, i) => (
-														<span key={i} title={am} className="lux-amenity-icon">
-															{amenidadIcon(am)}
-														</span>
-													))}
-													{a.amenidades && a.amenidades.length > 3 && (
-														<span className="lux-amenity-more">+{a.amenidades.length - 3}</span>
-													)}
-												</div>
-												
-												<a href={`/ejemplo-villa-eucalipto-y-romero-glamping/alojamiento/${a.id}`} className="lux-btn-reserve">
-													Ver detalles →
-												</a>
-											</div>
-										</div>
-									</article>
+									<CardLodging galleryItem={a} idx={idx} key={a.id} />
 								);
 							})}
 						</div>
@@ -189,8 +111,8 @@ export default function AlojamientosReact({ alojamientos, pageSize = 6 }: Props)
 					{/* PAGINATION */}
 					{totalPages > 1 && (
 						<div className="react-pagination">
-							<button 
-								className="pg-arrow" 
+							<button
+								className="pg-arrow"
 								disabled={currentPage === 0}
 								onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
 							>
@@ -198,7 +120,7 @@ export default function AlojamientosReact({ alojamientos, pageSize = 6 }: Props)
 							</button>
 							<div className="pg-dots">
 								{Array.from({ length: totalPages }).map((_, i) => (
-									<button 
+									<button
 										key={i}
 										className={`pg-dot ${i === currentPage ? 'active' : ''}`}
 										onClick={() => setCurrentPage(i)}
@@ -206,8 +128,8 @@ export default function AlojamientosReact({ alojamientos, pageSize = 6 }: Props)
 									/>
 								))}
 							</div>
-							<button 
-								className="pg-arrow" 
+							<button
+								className="pg-arrow"
 								disabled={currentPage >= totalPages - 1}
 								onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))}
 							>

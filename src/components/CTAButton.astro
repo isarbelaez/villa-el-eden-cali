@@ -2,14 +2,14 @@
 interface Props {
 	text: string;
 	href: string;
-	variant?: 'primary' | 'outline' | 'solid-forest';
+	variant?: "primary" | "outline" | "solid-forest";
 	class?: string;
 }
 
-const { text, href, variant = 'primary', class: className } = Astro.props;
+const { text, href, variant = "primary", class: className } = Astro.props;
 ---
 
-<a href={href} class={`btn btn-${variant} ${className || ''}`}>
+<a href={href} class={`btn btn-${variant} ${className || ""}`}>
 	{text}
 </a>
 
@@ -50,13 +50,13 @@ const { text, href, variant = 'primary', class: className } = Astro.props;
 		background-color: var(--color-white);
 		color: var(--color-forest);
 	}
-	
+
 	.btn-solid-forest {
 		background-color: var(--color-forest);
 		color: var(--color-white);
 		border: 1px solid var(--color-forest);
 	}
-	
+
 	.btn-solid-forest:hover {
 		background-color: var(--color-gold);
 		color: var(--color-forest);

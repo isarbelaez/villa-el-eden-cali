@@ -1,25 +1,45 @@
 ---
-import CTAButton from './CTAButton.astro';
+import CTAButton from "./CTAButton.astro";
 ---
 
 <section class="luxury-promo-section" id="planes">
 	<div class="luxury-promo-container" data-aos="fade-up">
 		<div class="promo-grid">
-			
 			<!-- Leyenda Izquierda -->
 			<div class="promo-content">
 				<span class="promo-tag">Experiencia Exclusiva</span>
-				<h2 class="promo-title">Planes para<br/>Parejas</h2>
-				<p class="promo-subtitle">2 personas · 1 noche · Todo Incluido</p>
-				
+				<h2 class="promo-title">Planes para<br />Parejas</h2>
+				<p class="promo-subtitle">
+					2 personas · 1 noche · Todo Incluido
+				</p>
+
 				<div class="promo-text">
-					<p>Desconéctate de la rutina y reconéctate con lo esencial. Hemos diseñado una vivencia donde cada detalle está contemplado para brindarles el máximo confort y privacidad en medio de la naturaleza.</p>
+					<p>
+						Desconéctate de la rutina y reconéctate con lo esencial.
+						Hemos diseñado una vivencia donde cada detalle está
+						contemplado para brindarles el máximo confort y
+						privacidad en medio de la naturaleza.
+					</p>
 				</div>
-				
+
 				<div class="promo-actions">
-					<a href="/ejemplo-villa-eucalipto-y-romero-glamping/reservas" class="lux-book-btn">
+					<a href={`${import.meta.env.BASE_URL}/reservas`} class="lux-book-btn">
 						Reservar Escapada
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-arrow"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="btn-arrow"
+							><line x1="5" y1="12" x2="19" y2="12"
+							></line><polyline points="12 5 19 12 12 19"
+							></polyline></svg
+						>
 					</a>
 				</div>
 			</div>
@@ -28,55 +48,140 @@ import CTAButton from './CTAButton.astro';
 			<div class="promo-card-wrapper">
 				<div class="glass-card">
 					<h3 class="glass-card-title">¿Qué incluye tu plan?</h3>
-					
+
 					<ul class="luxury-checklist">
 						<li>
 							<div class="check-icon-wrap">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><polyline points="20 6 9 17 4 12"
+									></polyline></svg
+								>
 							</div>
-							<span>Hospedaje de lujo para 2 personas (1 noche).</span>
+							<span
+								>Hospedaje de lujo para 2 personas (1 noche).</span
+							>
 						</li>
 						<li>
 							<div class="check-icon-wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><polyline points="20 6 9 17 4 12"
+									></polyline></svg
+								>
 							</div>
-							<span>2 Cenas deliciosas preparadas por nuestro chef.</span>
+							<span
+								>2 Cenas deliciosas preparadas por nuestro chef.</span
+							>
 						</li>
 						<li>
 							<div class="check-icon-wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><polyline points="20 6 9 17 4 12"
+									></polyline></svg
+								>
 							</div>
 							<span>2 Desayunos energéticos.</span>
 						</li>
 						<li>
 							<div class="check-icon-wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><polyline points="20 6 9 17 4 12"
+									></polyline></svg
+								>
 							</div>
 							<span>Relajación total en tu jacuzzi propio.</span>
 						</li>
 						<li>
 							<div class="check-icon-wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><polyline points="20 6 9 17 4 12"
+									></polyline></svg
+								>
 							</div>
-							<span>Red Catamarán para ver las estrellas o el dosel.</span>
+							<span
+								>Red Catamarán para ver las estrellas o el
+								dosel.</span
+							>
 						</li>
 						<li>
 							<div class="check-icon-wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><polyline points="20 6 9 17 4 12"
+									></polyline></svg
+								>
 							</div>
-							<span>Comodidades: comedor, nevera, TV, cafetera, WiFi y baño privado.</span>
+							<span
+								>Comodidades: comedor, nevera, TV, cafetera,
+								WiFi y baño privado.</span
+							>
 						</li>
 					</ul>
 
 					<div class="glass-card-footer">
-						<p class="schedule"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Ingreso 3:00 p.m. &mdash; Salida 11:00 a.m.</p>
+						<p class="schedule">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><circle cx="12" cy="12" r="10"
+								></circle><polyline points="12 6 12 12 16 14"
+								></polyline></svg
+							> Ingreso 3:00 p.m. &mdash; Salida 11:00 a.m.
+						</p>
 						<p class="deposit-notice">
-							Abono de <strong>$100.000 COP</strong> para confirmar. El saldo restante se cancela en la Villa en efectivo.
+							Abono de <strong>$100.000 COP</strong> para confirmar.
+							El saldo restante se cancela en la Villa en efectivo.
 						</p>
 					</div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 </section>
@@ -90,9 +195,17 @@ import CTAButton from './CTAButton.astro';
 		position: relative;
 		overflow: hidden;
 		/* Adding a subtle gradient mesh background */
-		background-image: 
-			radial-gradient(circle at 10% 20%, rgba(200, 151, 62, 0.05) 0%, transparent 40%),
-			radial-gradient(circle at 90% 80%, rgba(74, 103, 65, 0.15) 0%, transparent 40%);
+		background-image:
+			radial-gradient(
+				circle at 10% 20%,
+				rgba(200, 151, 62, 0.05) 0%,
+				transparent 40%
+			),
+			radial-gradient(
+				circle at 90% 80%,
+				rgba(74, 103, 65, 0.15) 0%,
+				transparent 40%
+			);
 	}
 
 	.luxury-promo-container {
@@ -127,7 +240,7 @@ import CTAButton from './CTAButton.astro';
 		position: relative;
 	}
 	.promo-tag::before {
-		content: '';
+		content: "";
 		position: absolute;
 		left: -35px;
 		top: 50%;
@@ -199,13 +312,17 @@ import CTAButton from './CTAButton.astro';
 
 	/* Golden accent glow behind the card */
 	.promo-card-wrapper::after {
-		content: '';
+		content: "";
 		position: absolute;
 		top: -20px;
 		left: -20px;
 		right: -20px;
 		bottom: -20px;
-		background: linear-gradient(135deg, rgba(200, 151, 62, 0.15) 0%, transparent 100%);
+		background: linear-gradient(
+			135deg,
+			rgba(200, 151, 62, 0.15) 0%,
+			transparent 100%
+		);
 		border-radius: 20px;
 		z-index: 0;
 		filter: blur(20px);
@@ -302,7 +419,7 @@ import CTAButton from './CTAButton.astro';
 			grid-template-columns: 1fr;
 			gap: 4rem;
 		}
-		
+
 		.promo-content {
 			max-width: 100%;
 			text-align: center;
@@ -311,7 +428,7 @@ import CTAButton from './CTAButton.astro';
 		.promo-tag::before {
 			display: none;
 		}
-		
+
 		.lux-book-btn {
 			margin: 0 auto;
 		}

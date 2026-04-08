@@ -3,7 +3,7 @@
 @import '@fontsource/playfair-display';
 @import '@fontsource/dm-sans';
 
-:root {
+@theme {
 	--color-forest: #1a3a2a;
 	--color-sage: #4a6741;
 	--color-gold: #c8973e;
@@ -11,15 +11,17 @@
 	--color-bark: #2c1810;
 	--color-mist: #e8e2d6;
 	--color-white: #fefcf9;
-	
+
 	--font-display: 'Playfair Display', serif;
 	--font-body: 'DM Sans', sans-serif;
-	
+
 	--box-shadow: 0 4px 20px rgba(26, 58, 42, 0.08);
 	--box-shadow-hover: 0 10px 30px rgba(26, 58, 42, 0.12);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
@@ -35,7 +37,12 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: var(--font-display);
 	margin: 0;
 	color: var(--color-forest);
@@ -43,12 +50,25 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 1.2;
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); }
-h3 { font-size: clamp(1.25rem, 2.5vw, 2rem); }
-h4 { font-size: clamp(1rem, 2vw, 1.5rem); }
+h1 {
+	font-size: clamp(2rem, 5vw, 3.5rem);
+}
 
-p { margin-top: 0; }
+h2 {
+	font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+}
+
+h3 {
+	font-size: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+h4 {
+	font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+p {
+	margin-top: 0;
+}
 
 a {
 	color: var(--color-gold);
@@ -111,12 +131,14 @@ img {
 :focus {
 	outline: none;
 }
+
 :focus-visible {
 	outline: 2px solid var(--color-gold);
 	outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
+
 	*,
 	*::before,
 	*::after {

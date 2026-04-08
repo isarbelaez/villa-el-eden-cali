@@ -22,69 +22,133 @@ const { alojamientos } = Astro.props;
 	<div class="container">
 		<div class="gallery-header" data-aos="fade-up">
 			<h2>Alojamientos más visitados</h2>
-			<p>Descubre nuestros refugios de lujo en la naturaleza y encuentra el perfecto para tu escapada.</p>
+			<p>
+				Descubre nuestros refugios de lujo en la naturaleza y encuentra
+				el perfecto para tu escapada.
+			</p>
 		</div>
 
 		<div class="gallery-grid" id="gallery-grid">
-			{alojamientos.map((aloj) => (
-				<article
-					class="gallery-card"
-					data-tipo={aloj.tipo}
-					data-jacuzzi={aloj.jacuzzi}
-					data-precio={aloj.precio}
-					data-aos="fade-up"
-				>
-					<div class="card-img-wrap">
-						<img
-							src={aloj.imagen}
-							alt={`Foto de ${aloj.nombre} - alojamiento glamping`}
-							loading="lazy"
-						/>
-						<span class={`badge badge-${aloj.tipo}`}>
-							{aloj.tipo === 'suite' ? 'Suite' : aloj.tipo === 'glamping' ? 'Glamping' : 'Cabaña'}
-						</span>
-					</div>
-					<div class="card-body">
-						<h3>{aloj.nombre}</h3>
-						{aloj.resumen && <p class="card-resumen">{aloj.resumen}</p>}
-						<div class="card-meta">
-							<span class="meta-item">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-								{aloj.capacidad} personas
-							</span>
-							<span class="meta-item">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12c-2.66 0-4.32-2-6-4s-3.34-4-6-4-4.32 2-6 4-3.34 4-6 4"></path><path d="M22 18c-2.66 0-4.32-2-6-4s-3.34-4-6-4-4.32 2-6 4-3.34 4-6 4"></path></svg>
-								Jacuzzi {aloj.jacuzzi}
+			{
+				alojamientos.map((aloj) => (
+					<article
+						class="gallery-card"
+						data-tipo={aloj.tipo}
+						data-jacuzzi={aloj.jacuzzi}
+						data-precio={aloj.precio}
+						data-aos="fade-up"
+					>
+						<div class="card-img-wrap">
+							<img
+								src={aloj.imagen}
+								alt={`Foto de ${aloj.nombre} - alojamiento glamping`}
+								loading="lazy"
+							/>
+							<span class={`badge badge-${aloj.tipo}`}>
+								{aloj.tipo === "suite"
+									? "Suite"
+									: aloj.tipo === "glamping"
+										? "Glamping"
+										: "Cabaña"}
 							</span>
 						</div>
-						{aloj.amenidades && aloj.amenidades.length > 0 && (
-							<div class="amenidades-chips">
-								{aloj.amenidades.slice(0, 3).map((a) => (
-									<span class="chip">{a}</span>
-								))}
-								{aloj.amenidades.length > 3 && (
-									<span class="chip chip-more">+{aloj.amenidades.length - 3} más</span>
-								)}
-							</div>
-						)}
-						<div class="card-footer">
-							<div class="precio-wrap">
-								<span class="precio">
-									{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(aloj.precio)}
+						<div class="card-body">
+							<h3>{aloj.nombre}</h3>
+							{aloj.resumen && (
+								<p class="card-resumen">{aloj.resumen}</p>
+							)}
+							<div class="card-meta">
+								<span class="meta-item">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<>
+											<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+											<circle cx="9" cy="7" r="4" />
+											<path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+											<path d="M16 3.13a4 4 0 0 1 0 7.75" />
+										</>
+									</svg>
+									{aloj.capacidad} personas
 								</span>
-								<span class="precio-label">/ noche para 2</span>
+								<span class="meta-item">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<>
+											<path d="M22 12c-2.66 0-4.32-2-6-4s-3.34-4-6-4-4.32 2-6 4-3.34 4-6 4" />
+											<path d="M22 18c-2.66 0-4.32-2-6-4s-3.34-4-6-4-4.32 2-6 4-3.34 4-6 4" />
+										</>
+									</svg>
+									Jacuzzi {aloj.jacuzzi}
+								</span>
 							</div>
-							<a href={`/ejemplo-villa-eucalipto-y-romero-glamping/reservas?alojamiento=${encodeURIComponent(aloj.nombre)}`} class="card-reserve-btn" aria-label={`Reservar ${aloj.nombre}`}>
-								Reservar
-							</a>
+							{aloj.amenidades && aloj.amenidades.length > 0 && (
+								<div class="amenidades-chips">
+									{aloj.amenidades.slice(0, 3).map((a) => (
+										<span class="chip">{a}</span>
+									))}
+									{aloj.amenidades.length > 3 && (
+										<span class="chip chip-more">
+											+{aloj.amenidades.length - 3} más
+										</span>
+									)}
+								</div>
+							)}
+							<div class="card-footer">
+								<div class="precio-wrap">
+									<span class="precio">
+										{new Intl.NumberFormat("es-CO", {
+											style: "currency",
+											currency: "COP",
+											minimumFractionDigits: 0,
+										}).format(aloj.precio)}
+									</span>
+									<span class="precio-label">
+										/ noche para 2
+									</span>
+								</div>
+								<a
+									href={`${import.meta.env.BASE_URL}/reservas?alojamiento=${encodeURIComponent(aloj.nombre)}`}
+									class="card-reserve-btn"
+									aria-label={`Reservar ${aloj.nombre}`}
+								>
+									Reservar
+								</a>
+							</div>
 						</div>
-					</div>
-				</article>
-			))}
+					</article>
+				))
+			}
 		</div>
 
-		<div class="no-results" id="no-results" style="display:none;" data-aos="fade-in">
-			<p>No se encontraron alojamientos con esos filtros. <button id="clear-filters">Ver todos</button></p>
+		<div
+			class="no-results"
+			id="no-results"
+			style="display:none;"
+			data-aos="fade-in"
+		>
+			<p>
+				No se encontraron alojamientos con esos filtros. <button
+					id="clear-filters">Ver todos</button
+				>
+			</p>
 		</div>
 	</div>
 </section>
@@ -123,13 +187,15 @@ const { alojamientos } = Astro.props;
 		background: white;
 		border-radius: 20px;
 		overflow: hidden;
-		box-shadow: 0 4px 20px rgba(26,58,42,0.07);
-		transition: transform 0.35s ease, box-shadow 0.35s ease;
+		box-shadow: 0 4px 20px rgba(26, 58, 42, 0.07);
+		transition:
+			transform 0.35s ease,
+			box-shadow 0.35s ease;
 	}
 
 	.gallery-card:hover {
 		transform: translateY(-8px);
-		box-shadow: 0 16px 40px rgba(26,58,42,0.13);
+		box-shadow: 0 16px 40px rgba(26, 58, 42, 0.13);
 	}
 
 	.card-img-wrap {
@@ -164,9 +230,18 @@ const { alojamientos } = Astro.props;
 		backdrop-filter: blur(4px);
 	}
 
-	.badge-suite { background: rgba(200,151,62,0.9); color: white; }
-	.badge-glamping { background: rgba(26,58,42,0.9); color: white; }
-	.badge-cabana { background: rgba(74,103,65,0.9); color: white; }
+	.badge-suite {
+		background: rgba(200, 151, 62, 0.9);
+		color: white;
+	}
+	.badge-glamping {
+		background: rgba(26, 58, 42, 0.9);
+		color: white;
+	}
+	.badge-cabana {
+		background: rgba(74, 103, 65, 0.9);
+		color: white;
+	}
 
 	/* Body */
 	.card-body {
@@ -234,7 +309,11 @@ const { alojamientos } = Astro.props;
 		gap: 1rem;
 	}
 
-	.precio-wrap { display: flex; flex-direction: column; line-height: 1.2; }
+	.precio-wrap {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.2;
+	}
 
 	.precio {
 		font-size: 1.15rem;
@@ -294,40 +373,48 @@ const { alojamientos } = Astro.props;
 </style>
 
 <script>
-	function filterCards(detail: { tipo: string; jacuzzi: string; precio: string }) {
-		const cards = document.querySelectorAll<HTMLElement>('.gallery-card');
+	function filterCards(detail: {
+		tipo: string;
+		jacuzzi: string;
+		precio: string;
+	}) {
+		const cards = document.querySelectorAll<HTMLElement>(".gallery-card");
 		let visible = 0;
 
-		cards.forEach(card => {
+		cards.forEach((card) => {
 			const matches =
 				(!detail.tipo || card.dataset.tipo === detail.tipo) &&
 				(!detail.jacuzzi || card.dataset.jacuzzi === detail.jacuzzi) &&
 				(!detail.precio || card.dataset.precio === detail.precio);
 
 			if (matches) {
-				card.classList.remove('hidden');
+				card.classList.remove("hidden");
 				visible++;
 			} else {
-				card.classList.add('hidden');
+				card.classList.add("hidden");
 			}
 		});
 
-		const noResults = document.getElementById('no-results');
-		if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+		const noResults = document.getElementById("no-results");
+		if (noResults)
+			noResults.style.display = visible === 0 ? "block" : "none";
 	}
 
 	// Listen to filter events dispatched from SearchBar
-	window.addEventListener('filterAlojamientos', (e: Event) => {
+	window.addEventListener("filterAlojamientos", (e: Event) => {
 		const customEvt = e as CustomEvent;
 		filterCards(customEvt.detail);
 	});
 
 	// Clear filters button
-	document.getElementById('clear-filters')?.addEventListener('click', () => {
-		filterCards({ tipo: '', jacuzzi: '', precio: '' });
+	document.getElementById("clear-filters")?.addEventListener("click", () => {
+		filterCards({ tipo: "", jacuzzi: "", precio: "" });
 		// Reset selects in SearchBar
-		(document.getElementById('search-tipo') as HTMLSelectElement).value = '';
-		(document.getElementById('search-jacuzzi') as HTMLSelectElement).value = '';
-		(document.getElementById('search-precio') as HTMLSelectElement).value = '';
+		(document.getElementById("search-tipo") as HTMLSelectElement).value =
+			"";
+		(document.getElementById("search-jacuzzi") as HTMLSelectElement).value =
+			"";
+		(document.getElementById("search-precio") as HTMLSelectElement).value =
+			"";
 	});
 </script>
