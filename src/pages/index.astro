@@ -4,6 +4,7 @@ import Hero from "../components/Hero.astro";
 import AlojamientosSectionReact from "../components/AlojamientosSectionReact.tsx";
 import LuxuryPlanPromo from "../components/LuxuryPlanPromo.astro";
 import { getCollection } from "astro:content";
+import VideoGrid from "@/components/videos/VideoGrid";
 
 const allAlojamientos = await getCollection("alojamientos");
 allAlojamientos.sort((a, b) => a.data.orden - b.data.orden);
@@ -20,8 +21,6 @@ const galleryItems = allAlojamientos.map((a) => ({
 	resumen: a.data.resumen,
 	amenidades: a.data.amenidades,
 }));
-
-console.log(allAlojamientos.map((a) => a.data.nombre));
 
 const heroImage =
 	"https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2670&auto=format&fit=crop";
@@ -58,6 +57,9 @@ const heroImage =
 			</p>
 		</div>
 	</section>
+
+	<!-- 3.5 VIDEO EXPERIENCE -->
+	<VideoGrid client:load/>
 
 	<!-- 4. LUXURY PLANES PROMO -->
 	<LuxuryPlanPromo />

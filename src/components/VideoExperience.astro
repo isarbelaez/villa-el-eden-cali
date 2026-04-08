@@ -1,0 +1,250 @@
+  ---
+  const base = import.meta.env.BASE_URL;
+
+  const videos = [
+    {
+      src: `${base}/videos/videuno.mp4`,
+      thumbnail: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=1200&auto=format&fit=crop",
+      title: "Experiencia Única"
+    },
+    {
+      src: `${base}/videos/videodos.mp4`,
+      thumbnail: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+      title: "Confort Natural"
+    },
+    {
+      src: `${base}/videos/videotres.mp4`,
+      thumbnail: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1200&auto=format&fit=crop",
+      title: "Vistas Inolvidables"
+    }
+  ];
+  ---
+
+  <section class="video-experience section">
+    <div class="container" data-aos="fade-up">
+      <div class="video-grid">
+        {videos.map((video, index) => (
+          <div class="video-card" data-index={index}>
+            <div class="video-wrapper">
+              <video 
+                class="experience-video" 
+                src={video.src} 
+                playsinline
+                preload="metadata"
+                controls
+              >
+                Su navegador no soporta el formato de video.
+              </video>
+              
+              <div class="video-overlay" style={`background-image: url(${video.thumbnail})`}>
+                <div class="play-button-container">
+                  <button class="play-button" aria-label="Reproducir video">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .video-experience {
+      padding-top: 0;
+      margin-bottom: 5rem;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .video-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      background: #000;
+      aspect-ratio: 16 / 9;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-hover);
+    }
+
+    .video-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .experience-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 2rem;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+      z-index: 2;
+    }
+
+    .video-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,0.5) 100%);
+      pointer-events: none;
+    }
+
+    .video-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .play-button-container {
+      position: relative;
+      z-index: 3;
+    }
+
+    .play-button {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .play-button svg {
+      fill: currentColor;
+      margin-left: 4px;
+      width: 30px;
+      height: 30px;
+    }
+
+    .play-button:hover {
+      transform: scale(1.15);
+      background: var(--color-gold);
+      border-color: var(--color-gold);
+      box-shadow: 0 0 25px rgba(200, 151, 62, 0.6);
+    }
+
+    @media (max-width: 992px) {
+      .video-grid {
+        gap: 1.5rem;
+      }
+      .play-button {
+        width: 64px;
+        height: 64px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .video-experience {
+        margin-bottom: 3.5rem;
+      }
+      
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .video-overlay {
+        padding-bottom: 1.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    function setupVideos() {
+      const videoCards = document.querySelectorAll('.video-card');
+      const allVideos = document.querySelectorAll('.experience-video') as NodeListOf<HTMLVideoElement>;
+
+      videoCards.forEach(card => {
+        const playBtn = card.querySelector('.play-button');
+        const video = card.querySelector('.experience-video') as HTMLVideoElement;
+        const overlay = card.querySelector('.video-overlay');
+
+        if (playBtn && video && overlay) {
+          playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Pause all other videos
+            allVideos.forEach(v => {
+              if (v !== video) {
+                v.pause();
+                // Show overlays of other videos if they were hidden
+                const otherOverlay = v.closest('.video-wrapper')?.querySelector('.video-overlay');
+                if (otherOverlay && v.paused) {
+                    // Actually, we only show it if it was playing. 
+                    // But the user didn't specify what happens to the overlay of paused videos.
+                    // Usually they show the overlay again.
+                    otherOverlay.classList.remove('hidden');
+                }
+              }
+            });
+
+            // Play current video
+            video.play();
+            overlay.classList.add('hidden');
+          });
+
+          // Hide overlay if video starts playing by other means (like native controls)
+          video.addEventListener('play', () => {
+            overlay.classList.add('hidden');
+            // Mutual exclusion
+            allVideos.forEach(v => {
+              if (v !== video) {
+                v.pause();
+                const otherOverlay = v.closest('.video-wrapper')?.querySelector('.video-overlay');
+                if (otherOverlay) otherOverlay.classList.remove('hidden');
+              }
+            });
+          });
+
+          // Show overlay if video pauses or ends
+          video.addEventListener('pause', () => {
+            overlay.classList.remove('hidden');
+          });
+
+          video.addEventListener('ended', () => {
+            overlay.classList.remove('hidden');
+            video.load(); // Reset to show first frame/thumbnail
+          });
+        }
+      });
+    }
+
+    // Initialize on load and on view swaps (if using View Transitions)
+    setupVideos();
+    document.addEventListener('astro:after-swap', setupVideos);
+  </script>
