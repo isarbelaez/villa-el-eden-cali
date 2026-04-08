@@ -5,14 +5,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const withBase = (path: string) => {
+  const base = import.meta.env.BASE_URL;
+
+  // elimina slash duplicados
+  return `${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+};
+
 export const getImageUrl = (img: string) => {
   if (!img) return "";
 
-  // Si ya es una URL externa → NO tocar
-  if (img.startsWith("http")) {
-    return img;
-  }
+  if (img.startsWith("http")) return img;
 
-  // Si es local → agregar base
-  return `${import.meta.env.BASE_URL}${img.replace(/^\/+/, "")}`;
+  return withBase(img);
 };
