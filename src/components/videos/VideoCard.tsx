@@ -3,7 +3,6 @@ import VideoPlayer from "./VideoPlayer";
 type VideoItem = {
   id: number;
   src: string;
-  thumbnail: string;
 };
 
 type Props = {
@@ -47,7 +46,6 @@ export default function VideoCard({
           {/* Imagen con scale */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
-            style={{ backgroundImage: `url(${video.thumbnail})` }}
           />
 
           {/* Overlay */}

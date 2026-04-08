@@ -4,7 +4,7 @@ export const videos = [
   {
     id: 1,
     src: `${base}/videos/videuno.mp4`,
-    thumbnail: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=1200&auto=format&fit=crop",
+    thumbnail: "video/thumbnail/cabana.jp",
     title: "Experiencia Única"
   },
   {
