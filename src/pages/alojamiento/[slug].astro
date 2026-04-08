@@ -8,6 +8,7 @@ import {
 import { getCollection, render } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import BookingSidebar from "@components/booking/BookingSidebar.tsx";
+import { getImageUrl } from "@lib/utils.ts";
 
 export async function getStaticPaths() {
 	const alojamientos = await getCollection("alojamientos");
@@ -16,18 +17,6 @@ export async function getStaticPaths() {
 		props: { alojamiento },
 	}));
 }
-
-const getImageUrl = (img: string) => {
-	if (!img) return "";
-
-	// Si ya es una URL externa → NO tocar
-	if (img.startsWith("http")) {
-		return img;
-	}
-
-	// Si es local → agregar base
-	return `${import.meta.env.BASE_URL}${img.replace(/^\/+/, "")}`;
-};
 
 const { alojamiento } = Astro.props;
 const { Content } = await render(alojamiento);

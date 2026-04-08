@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import CTAButton from "../components/CTAButton.astro";
+import { getImageUrl } from "@lib/utils.ts";
 ---
 
 <MainLayout
@@ -11,7 +12,7 @@ import CTAButton from "../components/CTAButton.astro";
 	<!-- Hero pequeño -->
 	<section
 		class="page-hero"
-		style="background-image: url('img/glampingcero.jpg')"
+		style={`background-image: url('${getImageUrl("img/glampingcero.jpg")}')`}
 	>
 		<div class="hero-overlay"></div>
 		<div class="container hero-content" data-aos="fade-up">
@@ -93,12 +94,12 @@ import CTAButton from "../components/CTAButton.astro";
 			<aside class="about-images">
 				<img
 					class="img-main"
-					src="img/exterior.jpg"
+					src={`${getImageUrl("img/exterior.jpg")}`}
 					alt="Vista panorámica de Villa del Eden"
 				/>
 				<img
 					class="img-secondary"
-					src="img/glampingtres.jpg"
+					src={`${getImageUrl("img/glampingtres.jpg")}`}
 					alt="Naturaleza en Villa del Eden"
 				/>
 			</aside>
