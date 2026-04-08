@@ -1,6 +1,10 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import ReservationForm from "../components/ReservationForm.astro";
+import ReservationForm from "@/components/ReservationForm";
+import { getCollection } from "astro:content";
+
+const alojamientos = await getCollection("alojamientos");
+const alojamientosList = alojamientos.map((a) => a.data.nombre);
 ---
 
 <MainLayout
@@ -20,7 +24,7 @@ import ReservationForm from "../components/ReservationForm.astro";
 			</div>
 
 			<div class="form-wrapper">
-				<ReservationForm />
+				<ReservationForm alojamientos={alojamientosList} client:load />
 			</div>
 		</div>
 	</div>
